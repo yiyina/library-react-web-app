@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useGlobalContext } from '../../context.js';
 import Book from "./Book.js";
 import Loading from "../Loader/Loader.js";
@@ -8,6 +9,7 @@ import "./BookList.css";
 //https://covers.openlibrary.org/b/id/240727-S.jpg
 
 const BookList = () => {
+  const { searchContent } = useParams();
   const {books, loading, resultTitle} = useGlobalContext();
   const booksWithCovers = books.map((singleBook) => {
     return {
@@ -22,9 +24,10 @@ const BookList = () => {
 
   return (
     <section className='booklist'>
+      
       <div className='container'>
         <div className='section-title'>
-          {/* <h2>{resultTitle}</h2> */}
+          <h2>{`Search Results for "${decodeURIComponent(searchContent)}"`}</h2>
           
         </div>
         <div className='booklist-content'>

@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom';
 import Loading from '../Loader/Loader.js';
 import coverImg from '../../images/cover_not_found.jpg';
 import './BookDetails.css';
-import { FaArrowLeft } from 'react-icons/fa/index.esm.js';
 import { useNavigate } from 'react-router-dom';
+import BookComments from '../BookComments/BookComments.js';
+
 
 const URL = 'https://openlibrary.org/works/';
 
 const BookDetails = () => {
-  const { id } = useParams();
+  const { searchContent, id } = useParams();
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const BookDetails = () => {
         <button
           type="button"
           className="btn btn-light back-btn"
-          onClick={() => navigate('/book')}>
+          onClick={() => navigate(`/search/${searchContent}`)}>
           <i className="fas fa-arrow-left mr-2"></i>
           <span className="fs-18 fw-6">Go Back</span>
         </button>
@@ -95,6 +96,7 @@ const BookDetails = () => {
           </div>
         </div>
       </div>
+      <BookComments /> {/* 在页面底部引用 BookComments 组件 */}
     </section>
   );
 };

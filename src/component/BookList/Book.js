@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import "./BookList.css";
 
 const Book = (book) => {
   const [isLiked, setIsLiked] = useState(false);
+  const { searchContent } = useParams();
 
   const toggleLike = () => {
     setIsLiked(prevLiked => !prevLiked);
@@ -13,7 +15,7 @@ const Book = (book) => {
     <div className='book-item flex flex-column flex-sb'>
       <div className='book-item-img'>
         <div className='img-wrapper'>
-          <Link to={`/book/${book.id}`} {...book}>
+          <Link to={`/search/${searchContent}/${book.id}`}>
             <div className='book-item-info-item title fw-7 fs-18'>
               <img src={book.cover_img} alt="cover" />
             </div>

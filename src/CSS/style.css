@@ -8,18 +8,15 @@ body {
   }
   
   code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   }
 
   .dark {
-    background-color: #333333; /* 暗色模板的背景色 */
-    color: #ffffff; /* 暗色模板的文字颜色 */
-    /* 其他暗色模板的样式 */
+    background-color: #333333; 
+    color: #ffffff;
   }
   
   .light {
-    background-color: #f8f8f8; /* 亮色模板的背景色 */
-    color: #333333; /* 亮色模板的文字颜色 */
-    /* 其他亮色模板的样式 */
+    background-color: #f8f8f8;
+    color: #333333;
   }

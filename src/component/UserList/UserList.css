@@ -1,4 +1,4 @@
-/* UserList.css */
+UserList.css
 .user-list-container {
     margin-top: 1.5rem;
   }
@@ -20,7 +20,6 @@
     background-color: rgba(255, 255, 255, 0.4);
     border-radius: 20px;
     margin-bottom: 20px;
-    /* border-bottom: 1px solid #e0e0e0; */
   }
   
   .user-avatar {
@@ -28,7 +27,7 @@
     width: 40px;
     height: 40px;
     overflow: hidden;
-    border-radius: 50%; /* Make the avatar circular */
+    border-radius: 50%; 
   }
   
   .user-avatar-img {
@@ -45,13 +44,13 @@
   .user-list-item-name {
     font-size: 16px;
     font-weight: bold;
-    color: #333; /* Change the link color */
+    color: #ff90bb; 
     text-decoration: none;
   }
   
   .user-list-item-name:hover {
-    color: #007bff; /* Change the link color on hover */
-    text-decoration: underline; /* Add underline on hover */
+    color: #007bff; 
+    text-decoration: underline; 
   }
 
   .user-list-item-last-login {

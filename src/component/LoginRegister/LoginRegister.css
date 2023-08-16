@@ -1,0 +1,18 @@
+/* Login.css */
+.login-container {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .login-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .login-text {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  

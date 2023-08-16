@@ -21,7 +21,7 @@ const SearchForm = () => {
       setSearchTerm(searchText.current.value);
     }
 
-    navigate('/book');
+    navigate(`/search/${encodeURIComponent(tempSearchTerm)}`); // 传递搜索内容作为路径参数
   };
 
   return (
