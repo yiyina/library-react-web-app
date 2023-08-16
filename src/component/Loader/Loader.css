@@ -1,0 +1,25 @@
+/* 修改 Loader.css */
+
+.loader {
+    position: fixed; /* 使加载器覆盖整个视口 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明的背景色 */
+    z-index: 9999; /* 确保加载器显示在最上层 */
+  }
+  
+  .loader img {
+    width: 80px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  

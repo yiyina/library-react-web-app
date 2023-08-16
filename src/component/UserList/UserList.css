@@ -1,0 +1,74 @@
+/* UserList.css */
+.user-list-container {
+    margin-top: 1.5rem;
+  }
+  
+  .user-list-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .user-list-header-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  .user-list-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    /* border-bottom: 1px solid #e0e0e0; */
+  }
+  
+  .user-avatar {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%; /* Make the avatar circular */
+  }
+  
+  .user-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .user-list-item-info {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+  
+  .user-list-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333; /* Change the link color */
+    text-decoration: none;
+  }
+  
+  .user-list-item-name:hover {
+    color: #007bff; /* Change the link color on hover */
+    text-decoration: underline; /* Add underline on hover */
+  }
+
+  .user-list-item-last-login {
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+  
+  .user-list-item-id {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-left: auto;
+    display: none;
+  }
+  
+  @media (min-width: 1200px) {
+    .user-list-item-id {
+      display: block;
+    }
+  }
+  

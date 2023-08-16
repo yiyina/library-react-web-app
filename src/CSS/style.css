@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+
+  .dark {
+    background-color: #333333; /* 暗色模板的背景色 */
+    color: #ffffff; /* 暗色模板的文字颜色 */
+    /* 其他暗色模板的样式 */
+  }
+  
+  .light {
+    background-color: #f8f8f8; /* 亮色模板的背景色 */
+    color: #333333; /* 亮色模板的文字颜色 */
+    /* 其他亮色模板的样式 */
+  }

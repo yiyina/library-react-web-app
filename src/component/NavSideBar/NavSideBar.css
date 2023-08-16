@@ -1,0 +1,41 @@
+.list-group.light {
+    background-color: #f8f9fa;
+}
+  
+.list-group.dark {
+    background-color: #343a40;
+    color: #fff;
+}
+  
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0;
+    transition: background-color 0.3s;
+}
+  
+.list-group-item:hover {
+    background-color: #e9ecef;
+}
+  
+.list-group-item.active {
+    background-color: #ced4da;
+}
+  
+.list-group-item.dark {
+    background-color: #343a40;
+    color: #fff;
+}
+  
+.list-group-item.dark:hover {
+    background-color: #424b52;
+}
+  
+.list-group-item.dark.active {
+    background-color: #495057;
+}
+  
