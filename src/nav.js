@@ -10,10 +10,10 @@ function Nav() {
 
   return (
     <nav className="nav nav-tabs mb-2">
-      <Link className="nav-link" to="/profile" style={navLinkStyle}>
+      <Link className="nav-link" to="/users/profile" style={navLinkStyle}>
         Information
       </Link>
-      <Link className="nav-link" to="/posts" style={navLinkStyle}>
+      <Link className="nav-link" to="/users/posts" style={navLinkStyle}>
         Book Likes
       </Link>
     </nav>

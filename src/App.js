@@ -34,9 +34,9 @@ function App() {
               <Route path="/search" element={<SearchForm />} />
               <Route path="/search/:searchContent" element={<BookList />} />
               <Route path="/search/:searchContent/:id" element={<BookDetails />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/users/login" element={<Login />} />
+              <Route path="/users/register" element={<Register />} />
+              <Route path="/users/profile" element={<Profile />} />
             </Routes>
           </div>
           <div className="col-md-2 d-none d-md-block">

@@ -1,78 +1,86 @@
-import React, { Component } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // 不再需要 withRouter
+import React, { useState } from 'react';
+import { Button, Form, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerThunk } from '../../services/auth-thunks.js'; // 根据实际路径修改
 import './Register.css';
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-      username: '',
-      password: '',
-      hasAccount: false // 默认没有已有账号
-    };
-  }
+const Register = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [inputError, setInputError] = useState('');
+  const [registrationError, setRegistrationError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  handleRegister = () => {
-    const { username, password } = this.state;
-    console.log('Register:', username, password);
-    // 在实际项目中，可以在这里调用注册API等等
-    this.setState({ isLoggedIn: true });
-  };
+  const handleRegister = async () => {
+    try {
+      if (!username || !password) {
+        setInputError("All fields are required.");;
+        return;
+      }
 
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
+      const result = await dispatch(registerThunk({ username, password, email }));
 
-  handleToggleAccount = () => {
-    this.setState((prevState) => ({
-      hasAccount: !prevState.hasAccount
-    }));
-  };
-
-  render() {
-    const { isLoggedIn, username, password, hasAccount } = this.state;
-
-    if (isLoggedIn) {
-      return null; // 已登录，不显示注册内容
+      if (registerThunk.fulfilled.match(result)) {
+        navigate('/users/login');
+      } else if (registerThunk.rejected.match(result)) {
+        setRegistrationError(result.error.message);
+      }
+    } catch (e) {
+      alert(e); 
     }
+  };
 
-    return (
-      <div className="register-container">
-        <Form>
-          <Form.Group controlId="formUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter username"
-              name="username"
-              value={username}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
+  return (
+    <div className="register-container">
+      <Form>
+        {inputError && <Alert variant="danger">{inputError}</Alert>}
+        {registrationError && <Alert variant="danger">{registrationError}</Alert>}
+        <Form.Group controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter username"
+            name="username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+        </Form.Group>
 
-          <Form.Group controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </Form.Group>
 
-          <Button variant="success" onClick={this.handleRegister}>
-            Register
-          </Button>
-        </Form>
+        <Form.Group controlId="formEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={(event) => {setEmail(event.target.value);}}
+          />
+          {emailError && <Alert variant="danger">{emailError}</Alert>}
+        </Form.Group>
 
-        <p>Already have an account? <Link to="/login" onClick={this.handleToggleAccount}>Login</Link></p>
-      </div>
-    );
-  }
-}
+        <Button variant="primary" onClick={handleRegister}>
+          Register
+        </Button>
+      </Form>
+
+      <p>Already have an account? <Link to="/users/login">Login</Link></p>
+    </div>
+  );
+};
 
 export default Register;

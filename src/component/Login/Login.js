@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginThunk } from '../../services/auth-thunks.js';
 import './Login.css';
 
 const Login = () => {
-  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasAccount, setHasAccount] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    console.log('Login:', username, password);
-    // 在实际项目中处理登录逻辑
-    const loginSuccessful = true; // 假设登录成功
-    if (loginSuccessful) {
-      setIsLoggedIn(true);
-      navigate("/profile");
-    } else {
-      // 处理登录失败逻辑
+  const handleLogin = async () => {
+    // Clear previous errors
+    setError(null);
+  
+    // Check for empty username or password
+    if (!username || !password) {
+      setError("All fields are required.");
+      return;
+    }
+    
+    try {
+      const result = await dispatch(loginThunk({ username, password }));
+  
+      // Check if login was successful
+      if (loginThunk.fulfilled.match(result)) {
+        setIsLoggedIn(true);
+        navigate('/users/profile');
+      } else if (loginThunk.rejected.match(result)) {
+        // Check the error message returned by the server
+        // and set an appropriate error message
+        const message = result.error.message || "Username or password is incorrect.";
+        setError(message);
+      }
+    } catch (error) {
+      // Unexpected errors
+      setError("An error occurred during login.");
     }
   };
 
@@ -36,12 +57,14 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    return null; // 已登录，不显示登录内容
+    navigate('/users/profile');
+    return null;
   }
 
   return (
     <div className="login-container">
       <Form>
+        {error && <Alert variant="danger">{error}</Alert>}
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -70,7 +93,7 @@ const Login = () => {
       </Form>
 
       <p>
-        Do not have account? <Link to="/register" onClick={handleToggleAccount}>Register</Link>
+        Do not have an account? <Link to="/users/register" onClick={handleToggleAccount}>Register</Link>
       </p>
     </div>
   );

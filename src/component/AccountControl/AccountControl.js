@@ -16,9 +16,9 @@ const AccountControl = () => {
       setIsLoggedIn(true);
       setUserAvatar("https://example.com/avatar.jpg"); // 设置用户头像 URL
       setUsername("JohnDoe"); // 设置用户名
-      navigate("/profile");
+      navigate("users/profile");
     } else {
-      navigate("/register");
+      navigate("users/register");
     }
   };
 
@@ -46,7 +46,7 @@ const AccountControl = () => {
 
   return (
     <div className="account-control">
-      <Link to="/login" className="btn btn-link">
+      <Link to="/users/login" className="btn btn-link">
         <FontAwesomeIcon icon={faUser} className="me-2" />
         <span>Account</span>
       </Link>
