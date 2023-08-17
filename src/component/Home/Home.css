@@ -1,0 +1,32 @@
+/* Home.css */
+.home-container {
+    position: relative;
+}
+
+.background-image {
+    background-image: url('../../../src/images/home-bg1.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.welcome-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.recommended-heading {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f3f3f3;
+}

@@ -1,15 +1,12 @@
 import React from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom'; // Import Link
 import { useGlobalContext } from '../../context.js';
-import Book from "./Book.js";
+import Book from '../BookList/Book.js';
 import Loading from "../Loader/Loader.js";
 import coverImg from "../../images/cover_not_found.jpg";
-import "./BookList.css";
+import "./HomeBookRecommend.css";
 
-const BookList = () => {
-  const { searchContent } = useParams();
-  const navigate = useNavigate();
-  const { books, loading, resultTitle } = useGlobalContext();
+const HomeBookRecommend = () => {
+  const { books, loading } = useGlobalContext();
   const booksWithCovers = books.map((singleBook) => {
     return {
       ...singleBook,
@@ -23,16 +20,6 @@ const BookList = () => {
   return (
     <section className='booklist'>
       <div className='container'>
-        <div className='section-title'>
-          <h2>{`Search Results for "${decodeURIComponent(searchContent)}"`}</h2>
-        </div>
-        <button
-          type="button"
-          className="btn btn-light back-btn"
-          onClick={() => navigate(`/search`)}>
-          <i className="fas fa-arrow-left mr-2"></i>
-          <span className="fs-18 fw-6">Back to {searchContent}</span>
-        </button>
         <div className='booklist-content'>
           <div className='row'>
             {booksWithCovers.slice(0, 30).map((item, index) => {
@@ -49,4 +36,4 @@ const BookList = () => {
   );
 }
 
-export default BookList;
+export default HomeBookRecommend;

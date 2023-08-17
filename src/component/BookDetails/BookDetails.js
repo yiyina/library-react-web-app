@@ -68,7 +68,7 @@ const BookDetails = () => {
           className="btn btn-light back-btn"
           onClick={() => navigate(`/search/${searchContent}`)}>
           <i className="fas fa-arrow-left mr-2"></i>
-          <span className="fs-18 fw-6">Go Back</span>
+          <span className="fs-18 fw-6">Back to {searchContent}</span>
         </button>
         <div className="book-details-content grid">
           <div className="book-details-img d-none d-lg-block">

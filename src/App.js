@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./component/Home/Home.js";
 import NavSideBar from "./component/NavSideBar/NavSideBar.js";
-import UserList from "./component/UserList/UserList.js";
 import BookList from "./component/BookList/BookList.js";
 import BookDetails from "./component/BookDetails/BookDetails.js";
 import SearchForm from "./component/SearchForm/SearchForm.jsx";
@@ -11,6 +10,7 @@ import Profile from "./component/Profile/Profile.js";
 import Login from "./component/Login/Login.js";
 import Register from "./component/Register/Register.js";
 import AccountControl from "./component/AccountControl/AccountControl.js";
+import RecentLogin from "./component/RecentLogin/RecentLogin.js";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -40,7 +40,7 @@ function App() {
             </Routes>
           </div>
           <div className="col-md-2 d-none d-md-block">
-            <UserList />
+            <RecentLogin/>
           </div>
         </div>
       </div>

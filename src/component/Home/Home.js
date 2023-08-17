@@ -1,24 +1,24 @@
+import React from 'react';
 // import Nav from "../../nav.js";
-import BookList from "../BookList/BookList.js";
-import SearchForm from "../SearchForm/SearchForm.jsx";
+import HomeBookRecommend from "../HomeBookRecommend/HomeBookRecommend.js";
+import "./Home.css"; // Import your CSS file for styling
 
 function Home() {
-    const handleSearch = (event) => {
-        console.log("Search Query:", event.target.value);
-    };
-
-    const handleKeyPress = (event) => {
-        if (event.key === "Enter") {
-            handleSearch(event);
-        }
-    };
-
     return (
-        <div>
+        <div className="home-container">
             {/* <Nav /> */}
-            <div>
-                <BookList/>
+            <div className="background-image">
+                <div className="welcome-text">
+                    <h1>Welcome to Our Bookstore!</h1>
+                    <p>Your one-stop shop for all your reading needs.</p>
+                </div>
             </div>
+            <h2 className="recommended-heading">Recommended Books</h2>
+            <HomeBookRecommend />
+            <footer className="footer">
+                <p>Contact us at: contact@bookstore.com</p>
+                <p>Follow us on social media!</p>
+            </footer>
         </div>
     );
 }
