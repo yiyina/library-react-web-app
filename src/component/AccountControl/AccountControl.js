@@ -1,41 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./AccountControl.css"; // Import the CSS file
+import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentUser, clearUser } from "../../redux/Reducers/auth-reducer.js"; // 更新路径
+import "./AccountControl.css";
 
 const AccountControl = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userAvatar, setUserAvatar] = useState(""); // 用户头像 URL
-  const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    const loginSuccessful = true; // 假设登录成功
-    if (loginSuccessful) {
-      setIsLoggedIn(true);
-      setUserAvatar("https://example.com/avatar.jpg"); // 设置用户头像 URL
-      setUsername("JohnDoe"); // 设置用户名
-      navigate("users/profile");
-    } else {
-      navigate("users/register");
-    }
-  };
+  // 使用useSelector从Redux Store中获取currentUser状态
+  const currentUser = useSelector(selectCurrentUser);
+  console.log("account line 15: ", currentUser);
 
   const handleLogout = () => {
-    // 在实际项目中处理登出逻辑
-    setIsLoggedIn(false);
-    setUserAvatar("");
-    setUsername("");
-    navigate("/");
+    // 清除Redux Store中的currentUser状态
+    dispatch(clearUser());
+    // 导航到首页
+    navigate("/users/login");
   };
 
-  if (isLoggedIn) {
+  if (currentUser) {
     return (
       <div className="account-control">
         <div className="user-info">
-          <img src={userAvatar} alt="User Avatar" className="user-avatar" />
-          <span className="username">{username}</span>
+          <Link to="/users/profile">
+            <img src={currentUser.avatar} alt="User Avatar" className="user-avatar" />
+            <span className="username">{currentUser.username}</span>
+          </Link>
         </div>
         <button className="btn btn-link" onClick={handleLogout}>
           Logout

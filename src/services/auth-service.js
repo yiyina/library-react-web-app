@@ -16,11 +16,11 @@ export const logout = async () => {
     return response.data;
 };
 export const profile = async () => {
-    try{ 
+    try{
         const response = await api.get(`${USERS_URL}/profile`);
+        console.log("profile service: ", response.data);
         return response.data;
     } catch (error) {
-        console.log(error);
         throw error;
     }
 };

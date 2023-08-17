@@ -11,7 +11,7 @@ export const profileThunk = createAsyncThunk(
     "auth/profile", async () => {
       const response = await authService.profile();
       console.log("profileThunk", response);
-      return response.data;
+      return response;
 });
 export const logoutThunk = createAsyncThunk(
     "auth/logout", async () => {
@@ -19,9 +19,8 @@ export const logoutThunk = createAsyncThunk(
 });
 export const updateUserThunk = createAsyncThunk(
       "user/updateUser", async (user) => {
-        console.log("updateThunk success"),
-      console.log("updateThunk", await authService.updateUser(user));
-      return await authService.updateUser(user);
+      await authService.updateUser(user);
+      return user;
     }
 );
 export const registerThunk = createAsyncThunk(

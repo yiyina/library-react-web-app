@@ -10,7 +10,7 @@ const Book = (book) => {
   const toggleLike = () => {
     setIsLiked(prevLiked => !prevLiked);
   }
-  console.log('Book Object:', book); // Log the book object
+  // console.log('Book Object:', book); // Log the book object
   return (
     <div className='book-item flex flex-column flex-sb'>
       <div className='book-item-img'>

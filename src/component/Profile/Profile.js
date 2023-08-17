@@ -7,34 +7,23 @@ import "./Profile.css";
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
+    console.log("profile load 10: ", currentUser);
     const [profile, setProfile] = useState(currentUser || {
         firstname: '',
         lastname: ''
     });
-    
+    console.log("profile load 15: ", profile);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
         setProfile({
             ...profile,
             [name]: value
         });
-        console.log("profile", profile);
     };
 
-    // const save = () => {
-    //     console.log("save", profile);
-    //     const action =  dispatch(updateUserThunk(profile));
-    //     console.log("save", action);
-    //     if (updateUserThunk.fulfilled.match(action)) {
-    //         alert('Profile updated successfully');
-    //     } else if (updateUserThunk.rejected.match(action)) {
-    //         alert('Failed to update profile');
-    //     }
-    // };
     const save = async () => {
         const newProfile = { ...profile };
         console.log("save", newProfile);

@@ -25,7 +25,7 @@ const Register = () => {
       const result = await dispatch(registerThunk({ username, password, email }));
 
       if (registerThunk.fulfilled.match(result)) {
-        navigate('/users/login');
+        navigate('/users/profile');
       } else if (registerThunk.rejected.match(result)) {
         setRegistrationError(result.error.message);
       }

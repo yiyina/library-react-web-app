@@ -29,7 +29,7 @@ function App() {
           </div>
           <div className="col-10 col-md-8">
             <Routes>
-              <Route path="/" element={<Navigate to="/home" />} />
+              {/* <Route path="/" element={<Navigate to="/home" />} /> */}
               <Route path="/home" element={<Home />} />
               <Route path="/search" element={<SearchForm />} />
               <Route path="/search/:searchContent" element={<BookList />} />

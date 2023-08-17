@@ -11,7 +11,6 @@ function NavSideBar({ toggleDarkMode, darkMode }) {
   const links = [
     { name: "home", icon: faHome },
     { name: "search", icon: faSearch},
-    { name: "profile", icon: faUser }
   ];
 
   return (
@@ -22,7 +21,7 @@ function NavSideBar({ toggleDarkMode, darkMode }) {
             <span className="d-none d-sm-inline">{link.name}</span>
           </Link>
       )}
-      <Link to="#" className={`list-group-item ${darkMode ? 'dark' : 'light'}`} onClick={toggleDarkMode}>
+      <Link to="#" className={`list-group-item mode ${darkMode ? 'dark' : 'light'}`} onClick={toggleDarkMode}>
         <FontAwesomeIcon icon={darkMode ? faMoon : faSun} className="me-2" />
         <span className="d-none d-sm-inline">{darkMode ? "Dark Mode" : "Light Mode"}</span>
       </Link>

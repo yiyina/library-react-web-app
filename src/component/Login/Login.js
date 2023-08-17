@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginThunk } from '../../services/auth-thunks.js';
 import './Login.css';
 
 const Login = () => {
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +14,8 @@ const Login = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const currentUser = useSelector(state => state.user.currentUser);
+  
   const handleLogin = async () => {
     // Clear previous errors
     setError(null);

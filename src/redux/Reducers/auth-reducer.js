@@ -40,13 +40,19 @@ const userSlice = createSlice({
     },
     [profileThunk.fulfilled]: (state, { payload }) => {
       state.status = 'succeeded';
+      console.log("profileThunk: ", payload);
+      console.log("loginThunk: ", state.currentUser);
       state.currentUser = payload;
+      state.error = null;
     },
     [profileThunk.rejected]: (state, action) => {
-      state.currentUser = null;
+      console.log("profileThunk: rejected");
+      state.status = 'failed';
       state.error = action.error.message;
+      console.error("profileThunk rejected:", action.error);
     },
     [profileThunk.pending]: (state) => {
+      console.log("profileThunk: loading");
       state.status = 'loading';
       state.error = null;
     },
