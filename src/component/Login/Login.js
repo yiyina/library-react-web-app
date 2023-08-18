@@ -27,7 +27,8 @@ const Login = () => {
       if (loginThunk.fulfilled.match(result)) {
         navigate('/users/profile');
       } else if (loginThunk.rejected.match(result)) {
-        const message = result.error.message || "Username or password is incorrect.";
+        const message = "Username or password is incorrect.";
+        // const message = result.error.message || "Username or password is incorrect.";
         setError(message);
       }
     } catch (error) {

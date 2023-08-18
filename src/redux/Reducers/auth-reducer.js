@@ -34,7 +34,7 @@ const userSlice = createSlice({
     },
     [loginThunk.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      state.error = null; //action.error.message;
   },
     [logoutThunk.fulfilled]: (state) => {
       state.status = 'succeeded';
@@ -93,6 +93,10 @@ const userSlice = createSlice({
       state.currentUser = payload;
       state.error = null;
     },
+    [registerThunk.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    }
   }
 });
 

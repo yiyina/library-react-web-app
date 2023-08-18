@@ -43,7 +43,8 @@ const Register = () => {
           navigate('/users/profile');
         }
       } else if (registerThunk.rejected.match(result)) {
-        setRegistrationError(result.error.message);
+        const message = result.error.message || "Username or password is incorrect.";
+        setRegistrationError(message);
       }
     } catch (error) {
       setRegistrationError("An error occurred during registration. Please try again later.");
