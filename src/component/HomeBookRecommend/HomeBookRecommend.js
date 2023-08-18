@@ -17,7 +17,7 @@ const HomeBookRecommend = () => {
   if (loading) return <Loading />;
 
   return (
-    <section className='home-booklist'>
+    <section className="home-booklist">
       <div className='container'>
         <div className='booklist-content'>
           <div className='row'>
