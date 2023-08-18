@@ -3,7 +3,6 @@
 }
   
 .list-group.dark {
-    background-color: #343a40;
     color: #fff;
 }
   
@@ -27,7 +26,7 @@
 }
   
 .list-group-item.dark {
-    background-color: #343a40;
+    background-color: #403a34;
     color: #fff;
 }
   
@@ -38,4 +37,3 @@
 .list-group-item.dark.active {
     background-color: #495057;
 }
-  

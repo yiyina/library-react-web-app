@@ -6,41 +6,31 @@ import { loginThunk } from '../../services/auth-thunks.js';
 import './Login.css';
 
 const Login = () => {
-  
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [hasAccount, setHasAccount] = useState(true);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector(state => state.user.currentUser);
-  
+
   const handleLogin = async () => {
-    // Clear previous errors
     setError(null);
-  
-    // Check for empty username or password
+
     if (!username || !password) {
       setError("All fields are required.");
       return;
     }
-    
+
     try {
       const result = await dispatch(loginThunk({ username, password }));
-  
-      // Check if login was successful
+
       if (loginThunk.fulfilled.match(result)) {
-        setIsLoggedIn(true);
         navigate('/users/profile');
       } else if (loginThunk.rejected.match(result)) {
-        // Check the error message returned by the server
-        // and set an appropriate error message
         const message = result.error.message || "Username or password is incorrect.";
         setError(message);
       }
     } catch (error) {
-      // Unexpected errors
       setError("An error occurred during login.");
     }
   };
@@ -55,13 +45,10 @@ const Login = () => {
   };
 
   const handleToggleAccount = () => {
-    setHasAccount((prevState) => !prevState);
+    setUsername('');
+    setPassword('');
+    setError(null);
   };
-
-  if (isLoggedIn) {
-    navigate('/users/profile');
-    return null;
-  }
 
   return (
     <div className="login-container">
@@ -95,7 +82,16 @@ const Login = () => {
       </Form>
 
       <p>
-        Do not have an account? <Link to="/users/register" onClick={handleToggleAccount}>Register</Link>
+        {currentUser ? (
+          <span>Logged in as {currentUser.username}</span>
+        ) : (
+          <>
+            Do not have an account?{' '}
+            <Link to="/users/register" onClick={handleToggleAccount}>
+              Register
+            </Link>
+          </>
+        )}
       </p>
     </div>
   );

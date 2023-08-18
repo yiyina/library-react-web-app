@@ -6,7 +6,6 @@ const BookComments = () => {
   const [newComment, setNewComment] = useState('');
 
   const fetchCommentsFromDatabase = () => {
-    // 这里从后端获取数据
     const mockComments = [
       {
         id: 1,
@@ -22,7 +21,6 @@ const BookComments = () => {
         avatar: 'path_to_avatar.jpg',
         profileUrl: '/profile/2', 
       }
-      // ... 其他评论
     ];
     setComments(mockComments);
   };
@@ -56,7 +54,6 @@ const BookComments = () => {
         ))}
       </ul>
       <form onSubmit={handleSubmit} className="comment-form">
-        {/* ... */}
       </form>
     </div>
   );

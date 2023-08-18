@@ -30,6 +30,9 @@ const SearchForm = () => {
       <div className="container">
         <div className="search-form-content">
           <form className="search-form" onSubmit={handleSubmit}>
+            <div className="search-prompt">
+              Start to Search a Book
+            </div>
             <div className="search-form-elem bg-white">
               <input
                 type="text"

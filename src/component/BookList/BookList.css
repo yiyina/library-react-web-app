@@ -1,10 +1,13 @@
 .booklist, .book-details{
     padding: 3rem 0;
-    background-color: rgba(255, 255, 255, 0.2);  /* f8f9fa */
+    background-color: rgba(255, 255, 255, 0.2); 
     border-radius: 50px;
 }
 .booklist-content{
     gap: 3rem;
+}
+.booklist {
+    background-color: transparent;
 }
 .book-item{
     height: 95%;
@@ -26,19 +29,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* Set a fixed height or minimum height for the wrapper */
-    height: 150px; /* Example height, you can adjust as needed */
-    /* OR */
-    /* min-height: 200px; */ /* Example minimum height, you can adjust as needed */
+    height: 150px;
 }
 
 .img-wrapper img {
-    /* Ensure the image fills the wrapper but doesn't stretch */
     max-width: 100%;
     max-height: 100%;
-    
-    /* Preserve the aspect ratio and ensure image fits inside the container */
     object-fit: contain;
 }
 .result-title {
@@ -79,14 +75,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: auto; /* Push to the bottom */
-    padding-top: 15px; /* Add spacing from the bottom */
+    margin-top: auto; 
+    padding-top: 15px;
 }
 
 
 @media screen and (max-width: 800px) {
     .book-item-img img {
-        max-width: 100px; /* 调整图片的最大宽度为100px，适应较小的屏幕 */
+        max-width: 100px; 
     }
 }
 

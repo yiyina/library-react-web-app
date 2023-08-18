@@ -11,7 +11,7 @@ export const login = async ({ username, password }) => {
         throw error;
     }
 };
-export const logout = async () => {
+export const logout = async () => { 
     const response = await api.post(`${USERS_URL}/logout`);
     return response.data;
 };
@@ -24,14 +24,23 @@ export const profile = async () => {
         throw error;
     }
 };
+export const profileOther = async (userId) => {
+    try {
+        const response = await api.get(`${USERS_URL}/profile/${userId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const updateUser = async (user) => {
     const response = await api.put(`${USERS_URL}`, user); // ${user._id}
     return response.data;
 };
-export const register = async ({ username, password, email }) => {
+export const register = async ({ username, password, email, avatarUrl }) => {
     try{
         console.log(`${USERS_URL}/register`);
-        const response = await api.post(`${USERS_URL}/register`, { username, password, email });
+        const response = await api.post(`${USERS_URL}/register`, { username, password, email, avatarUrl });
         console.log(response.data);
         return response.data;
     } catch (error) {

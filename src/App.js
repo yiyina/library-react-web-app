@@ -11,6 +11,8 @@ import Login from "./component/Login/Login.js";
 import Register from "./component/Register/Register.js";
 import AccountControl from "./component/AccountControl/AccountControl.js";
 import RecentLogin from "./component/RecentLogin/RecentLogin.js";
+import HomeBookDetails from "./component/HomeBookRecommend/HomeBookDetails.js";
+import ProfileOther from "./component/ProfileOther/ProfileOther.js";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -31,12 +33,14 @@ function App() {
             <Routes>
               {/* <Route path="/" element={<Navigate to="/home" />} /> */}
               <Route path="/home" element={<Home />} />
+              <Route path="/home/:id" element={<HomeBookDetails />} />
               <Route path="/search" element={<SearchForm />} />
               <Route path="/search/:searchContent" element={<BookList />} />
               <Route path="/search/:searchContent/:id" element={<BookDetails />} />
               <Route path="/users/login" element={<Login />} />
               <Route path="/users/register" element={<Register />} />
               <Route path="/users/profile" element={<Profile />} />
+              <Route path="/users/profile/:id" element={<ProfileOther />} />
             </Routes>
           </div>
           <div className="col-md-2 d-none d-md-block">

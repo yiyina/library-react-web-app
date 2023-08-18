@@ -1,8 +1,11 @@
+.book-details {
+  padding: 6rem 0;
+}
+
 .back-btn {
   margin-left: 20px;
   margin-bottom: 2.6rem;
   transition: var(--transition);
-  color: var(--purple-color);
 }
 
 .back-btn:hover {
@@ -11,10 +14,6 @@
 
 .back-btn span {
   margin-left: 1rem;
-}
-
-.book-details {
-  padding: 6rem 0;
 }
 
 .book-details-content {
@@ -28,7 +27,6 @@
   justify-content: center;
   align-items: center;
   flex: 1;
-  padding: 0 6rem 0 2rem;
 }
 
 .book-details-img img {
@@ -57,9 +55,18 @@
   opacity: 0.8;
 }
 
+/* Media Query */
 @media screen and (min-width: 768px) {
   .book-details-content {
     flex-direction: row;
     gap: 0;
+  }
+
+  .book-details-img {
+    padding: 0 6rem 0 2rem;
+  }
+
+  .book-details-img img {
+    max-width: 100%;
   }
 }

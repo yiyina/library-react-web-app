@@ -1,42 +1,60 @@
 .account-control {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  .user-info {
-    padding-top: 20px;
-    display: flex;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .username {
-    font-weight: bold;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .user-info:hover .username {
-    text-decoration: underline;
-  }
-  
-  .btn-link {
-    border: none;
-    background: none;
-    padding: 0;
-    color: #333;
-    cursor: pointer;
-  }
-  
-  .btn-link:hover {
-    color: #007bff;
-  }
-  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: transparent;
+  height: 90vh;
+}
+
+.icon-text {
+  background-color: transparent;
+}
+
+.profile-link,
+.login-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.username-text {
+  font-weight: bold;
+  text-align: center;
+}
+
+.user-info:hover .username-text {
+  text-decoration: underline;
+}
+
+.user-icon {
+  margin-right: 5px;
+}
+
+.login-link:hover .icon-text {
+  text-decoration: underline;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  background-color: #55a5fbb3;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  text-decoration: none;
+  background-color: #286eb8;
+}

@@ -7,12 +7,7 @@ import "./Profile.css";
 
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
-    console.log("profile load 10: ", currentUser);
-    const [profile, setProfile] = useState(currentUser || {
-        firstname: '',
-        lastname: ''
-    });
-    console.log("profile load 15: ", profile);
+    const [profile, setProfile] = useState({ ...currentUser });
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -25,18 +20,23 @@ function Profile() {
     };
 
     const save = async () => {
-        const newProfile = { ...profile };
-        console.log("save", newProfile);
-        await dispatch(updateUserThunk(newProfile));
+        await dispatch(updateUserThunk(profile));
     };
 
-    useEffect( () => {
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        setProfile({
+            ...profile,
+            avatar: file,
+        });
+    };
+
+    useEffect(() => {
         const loadProfile = async () => {
             const { payload } = await dispatch(profileThunk());
-            console.log("Inside loadProfile:", payload);
             if (payload) {
                 setProfile(payload);
-                dispatch(setUser(payload));
+                dispatch(setUser(payload)); // It seems you forgot to import `setUser`
             }
         };
         loadProfile();
@@ -46,6 +46,13 @@ function Profile() {
         <div className="profile-container">
             <Nav />
             <div className="profile-form">
+                <div className="profile-avatar-container">
+                    <img
+                        src={profile.avatarUrl || '/default-avatar.png'}
+                        alt="User Avatar"
+                        className="profile-user-avatar"
+                    />
+                </div>
                 <label>
                     Username
                     <input
@@ -76,7 +83,7 @@ function Profile() {
                 <label>
                     First Name
                     <input
-                        type="firstname"
+                        type="text"
                         name="firstname"
                         value={profile.firstname}
                         onChange={handleInputChange}
@@ -85,16 +92,15 @@ function Profile() {
                 <label>
                     Last Name
                     <input
-                        type="lastname"
+                        type="text"
                         name="lastname"
                         value={profile.lastname}
                         onChange={handleInputChange}
                     />
                 </label>
-                
                 <button className="save-button" onClick={save}>Save</button>
-                <button className="logout-button" 
-                    onClick={() => {dispatch(logoutThunk()); navigate("/users/login");}}>
+                <button className="logout-button"
+                    onClick={() => { dispatch(logoutThunk()); navigate("/users/login"); }}>
                     Logout
                 </button>
             </div>

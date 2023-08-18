@@ -3,12 +3,25 @@
     font-family: Arial, sans-serif;
 }
 
+.profile-avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-user-avatar {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    margin-bottom: 20px;
+}
+
 .profile-form {
     margin: 20px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    background-color: transparent;
 }
 
 .profile-form label {

@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginThunk, logoutThunk, profileThunk, updateUserThunk, registerThunk } from "../../services/auth-thunks.js";
+import { loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk } from "../../services/auth-thunks.js";
 
 const userSlice = createSlice({
   name: "auth",
   initialState: {
     currentUser: null,
+    otherUser: null,
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
     firstName: "",
-    lastName: ""
+    lastName: "",
+    // avatar: "",
   },
   reducers: {
     setUser: (state, action) => {
@@ -21,10 +23,10 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
-    // [loginThunk.pending]: (state) => {
-    //   state.status = 'loading';
-    //   state.error = null;
-    // },
+    [loginThunk.pending]: (state) => {
+      state.status = 'loading';
+      state.error = null;
+    },
     [loginThunk.fulfilled]: (state, { payload }) => {
       state.status = 'succeeded';
       state.currentUser = payload;
@@ -56,6 +58,24 @@ const userSlice = createSlice({
       state.status = 'loading';
       state.error = null;
     },
+    
+    [profileOtherThunk.fulfilled]: (state, { payload }) => {
+      state.status = 'succeeded';
+      state.otherUser = payload;
+      state.error = null;
+    },
+    [profileOtherThunk.rejected]: (state, action) => {
+      console.log("profileThunk: rejected");
+      state.status = 'failed';
+      state.error = action.error.message;
+      console.error("profileThunk rejected:", action.error);
+    },
+    [profileOtherThunk.pending]: (state) => {
+      console.log("profileThunk: loading");
+      state.status = 'loading';
+      state.error = null;
+    },
+
     [updateUserThunk.fulfilled]: (state, { payload }) => {
       state.currentUser = payload;
       console.log(payload);

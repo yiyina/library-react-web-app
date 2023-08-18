@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Loading from '../Loader/Loader.js';
 import coverImg from '../../images/cover_not_found.jpg';
-import './BookDetails.css';
-import { useNavigate } from 'react-router-dom';
+import './HomeBookDetails.css';
 import BookComments from '../BookComments/BookComments.js';
 
 const URL = 'https://openlibrary.org/works/';
 
-const BookDetails = () => {
-  const { searchContent, id } = useParams();
-  const [loading, setLoading] = useState(true); 
-  const [book, setBook] = useState(null);
+const HomeBookDetails = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [book, setBook] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
+    
     async function getBookDetails() {
       try {
         const response = await fetch(`${URL}${id}.json`);
@@ -29,6 +30,7 @@ const BookDetails = () => {
             subject_times,
             subjects,
           } = data;
+
           const newBook = {
             description: description ? description.value : 'No description found',
             title: title,
@@ -43,11 +45,13 @@ const BookDetails = () => {
               : 'No subject times found',
             subjects: subjects ? subjects.join(', ') : 'No subjects found',
           };
+
           setBook(newBook);
         } else {
           setBook(null);
         }
-        setLoading(false); 
+        
+        setLoading(false);
       } catch (error) {
         console.log(error);
         setLoading(false);
@@ -57,7 +61,9 @@ const BookDetails = () => {
     getBookDetails();
   }, [id]);
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <section className="book-details">
@@ -65,9 +71,9 @@ const BookDetails = () => {
         <button
           type="button"
           className="btn btn-light back-btn"
-          onClick={() => navigate(`/search/${searchContent}`)}>
+          onClick={() => navigate('/home')}>
           <i className="fas fa-arrow-left mr-2"></i>
-          <span className="fs-18 fw-6">Back to {searchContent}</span>
+          <span className="fs-18 fw-6">Back to Home</span>
         </button>
         <div className="book-details-content grid">
           <div className="book-details-img d-none d-lg-block">
@@ -95,9 +101,9 @@ const BookDetails = () => {
           </div>
         </div>
       </div>
-      <BookComments /> 
+      <BookComments />
     </section>
   );
 };
 
-export default BookDetails;
+export default HomeBookDetails;

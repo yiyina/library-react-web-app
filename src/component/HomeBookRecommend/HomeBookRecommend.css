@@ -1,13 +1,15 @@
-.booklist, .book-details{
+.home-booklist {
     padding: 3rem 0;
-    background-color: rgba(255, 255, 255, 0.2);  /* f8f9fa */
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50px;
-    padding-top: 0px;
+    padding-top: 0;
 }
-.booklist-content{
+  
+.booklist-content {
     gap: 3rem;
 }
-.book-item{
+
+.book-item {
     height: 95%;
     padding: 3rem 2rem;
     border-radius: 50px;
@@ -15,62 +17,63 @@
     box-shadow: rgba(0, 0, 0, 0.05) 0px 5px 10px 0px;
     transition: var(--transition);
 }
-.book-item:hover{
+
+.book-item:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px 0px;
 }
-.book-item-img img{
+
+.book-item-img img {
     max-width: 180px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto;
 }
+
 .img-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* Set a fixed height or minimum height for the wrapper */
-    height: 150px; /* Example height, you can adjust as needed */
-    /* OR */
-    /* min-height: 200px; */ /* Example minimum height, you can adjust as needed */
+    height: 150px;
 }
 
 .img-wrapper img {
-    /* Ensure the image fills the wrapper but doesn't stretch */
     max-width: 100%;
     max-height: 100%;
-    
-    /* Preserve the aspect ratio and ensure image fits inside the container */
     object-fit: contain;
 }
+
 .result-title {
     padding-bottom: 20px;
 }
-  
-.book-item-info{
+
+.book-item-info {
     margin-top: 2rem;
 }
-.book-item-info-item.title{
+
+.book-item-info-item.title {
     line-height: 1.4;
     margin-bottom: 0.8rem;
 }
+
 .book-item-info-item.title span {
     display: block;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
-    max-width: 100%; 
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
-.book-item-info-item.author{
+
+.book-item-info-item.author {
     line-height: 1.4;
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.book-item-info-item:not(.book-item-info-item.title) span:last-child{
+
+.book-item-info-item:not(.book-item-info-item.title) span:last-child {
     opacity: 0.8;
 }
-.book-item-info-item.publish-year{
+
+.book-item-info-item.publish-year {
     opacity: 0.6;
     font-style: italic;
     font-size: 14px;
@@ -80,22 +83,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: auto; /* Push to the bottom */
-    padding-top: 15px; /* Add spacing from the bottom */
+    margin-top: auto;
+    padding-top: 15px;
 }
-
 
 @media screen and (max-width: 800px) {
     .book-item-img img {
-        max-width: 100px; /* 调整图片的最大宽度为100px，适应较小的屏幕 */
+    max-width: 100px;
     }
 }
 
-@media screen and (min-width: 992px){
-    .booklist-content{
-        grid-template-columns: repeat(4, 1fr);
+@media screen and (min-width: 992px) {
+    .booklist-content {
+    grid-template-columns: repeat(4, 1fr);
     }
-    .book-item-img img{
-        max-width: 120px;
+    .book-item-img img {
+    max-width: 120px;
     }
 }
+  

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate, useParams, Link } from 'react-router-dom'; // Import Link
 import { useGlobalContext } from '../../context.js';
 import Book from "./Book.js";
 import Loading from "../Loader/Loader.js";
@@ -9,25 +9,16 @@ import "./BookList.css";
 const BookList = () => {
   const { searchContent } = useParams();
   const navigate = useNavigate();
-  const { books, loading } = useGlobalContext();
-
-  const renderBooks = () => {
-    if (loading) {
-      return <Loading />;
-    }
-
-    const booksWithCovers = books.map((singleBook) => ({
+  const { books, loading, resultTitle } = useGlobalContext();
+  const booksWithCovers = books.map((singleBook) => {
+    return {
       ...singleBook,
-      id: singleBook.id.replace("/works/", ""),
+      id: (singleBook.id).replace("/works/", ""),
       cover_img: singleBook.cover_id ? `https://covers.openlibrary.org/b/id/${singleBook.cover_id}-L.jpg` : coverImg
-    }));
+    }
+  });
 
-    return booksWithCovers.slice(0, 30).map((item, index) => (
-      <div key={index} className='col-md-3'>
-        <Book {...item} />
-      </div>
-    ));
-  };
+  if (loading) return <Loading />;
 
   return (
     <section className='booklist'>
@@ -44,7 +35,13 @@ const BookList = () => {
         </button>
         <div className='booklist-content'>
           <div className='row'>
-            {renderBooks()}
+            {booksWithCovers.slice(0, 30).map((item, index) => {
+              return (
+                <div key={index} className='col-md-3'>
+                  <Book {...item} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

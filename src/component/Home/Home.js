@@ -1,23 +1,45 @@
 import React from 'react';
-// import Nav from "../../nav.js";
 import HomeBookRecommend from "../HomeBookRecommend/HomeBookRecommend.js";
-import "./Home.css"; // Import your CSS file for styling
+import "./Home.css";
+
+const contactEmails = ["yi.yina@bookstore.com", "mia.yan@bookstore.com"];
 
 function Home() {
     return (
         <div className="home-container">
-            {/* <Nav /> */}
-            <div className="background-image">
+            <header className="background-image">
                 <div className="welcome-text">
-                    <h1>Welcome to Our Bookstore!</h1>
+                    <h1>Welcome to the Online Book App!</h1>
                     <p>Your one-stop shop for all your reading needs.</p>
                 </div>
-            </div>
-            <h2 className="recommended-heading">Recommended Books</h2>
-            <HomeBookRecommend />
+            </header>
+            <section className="recommended-books">
+                <h2 className="recommended-heading">Recommended Books</h2>
+                <HomeBookRecommend />
+            </section>
             <footer className="footer">
-                <p>Contact us at: contact@bookstore.com</p>
-                <p>Follow us on social media!</p>
+                <div className="footer-content">
+                    <div className="contact-info">
+                        <p>Contact us:</p>
+                        {contactEmails.map((email, index) => (
+                            <p key={index}><a href={`mailto:${email}`}>{email}</a></p>
+                        ))}
+                    </div>
+                    <div className="social-media">
+                        <p>Follow us on social media:</p>
+                        <div className="social-icons">
+                            <a href="#" className="social-icon">
+                                <i className="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" className="social-icon">
+                                <i className="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" className="social-icon">
+                                <i className="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </footer>
         </div>
     );

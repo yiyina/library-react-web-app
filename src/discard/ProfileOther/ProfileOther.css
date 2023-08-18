@@ -1,0 +1,67 @@
+.profile-other {
+    background-color: transparent;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+.profile-other__banner {
+    background: url('../../images/home-bg1.jpg') center/cover no-repeat;
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* 添加这一行 */
+}
+
+.profile-other__user-avatar {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px; /* 添加这一行，增加头像和用户名之间的间距 */
+}
+
+.profile-other__username {
+    text-align: center;
+    font-family: "Cursive Fonts";
+    margin-top: 10px;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.profile-other__follows, 
+.profile-other__followers, 
+.profile-other__likes, 
+.profile-other__book-comments {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.profile-other__follow, 
+.profile-other__follower {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-other__follow img, 
+.profile-other__follower img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.profile-other__likes ul, 
+.profile-other__book-comments ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.profile-other__likes li, 
+.profile-other__book-comments li {
+    margin-bottom: 10px;
+}

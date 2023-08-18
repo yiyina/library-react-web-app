@@ -1,23 +1,15 @@
 .recent-login-container {
     background-color: #f8f9fa;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  .recent-login-title {
-    color: #007bff;
-  }
-  .recent-login-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
   
-  .recent-login-header-icon {
+/* .recent-login-header-icon {
     font-size: 1.5rem;
     margin-right: 10px;
     color: #007bff;
-  }
+} */
   
   .recent-login-list {
     display: grid;
@@ -28,9 +20,8 @@
     display: flex;
     align-items: center;
     padding: 10px;
-    border-radius: 8px;
     background-color: #ffffff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.2); */
   }
   
   .recent-login-avatar-img {
@@ -82,4 +73,59 @@
     font-size: 12px;
     white-space: nowrap; /* 避免文本折行 */
   }
+  
+  /* Light mode styles */
+.light .recent-login-container {
+    background-color: #f8f8f8;
+    color: #333333;
+}
+  
+.light .recent-login-title {
+    border-bottom: 1px solid #dddddd;
+}
+  
+.light .recent-login-item {
+    background-color: transparent;
+    border-bottom: 1px solid #dddddd;
+}
+
+.light .recent-login-username {
+    color: #333333;
+  }
+  
+  .light .recent-login-username:hover {
+    color: #111111;
+  }
+  
+  
+.light .recent-login-item:hover {
+    background-color: #f0f0f0;
+}
+  
+  /* Dark mode styles */
+.dark .recent-login-container {
+    background-color: #333333;
+    color: #ffffff;
+}
+  
+.dark .recent-login-title {
+    border-bottom: 1px solid #555555;
+}
+  
+.dark .recent-login-item {
+    background-color: transparent;
+    border-bottom: 1px solid #555555;
+}
+  
+.dark .recent-login-username {
+    color: #ffffff;
+  }
+  
+.dark .recent-login-username:hover {
+    color: #dddddd;
+}
+  
+.dark .recent-login-item:hover {
+    background-color: #555555;
+}
   

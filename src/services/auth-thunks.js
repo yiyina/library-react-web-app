@@ -13,20 +13,24 @@ export const profileThunk = createAsyncThunk(
       console.log("profileThunk", response);
       return response;
 });
+export const profileOtherThunk = createAsyncThunk(
+    "auth/profileOther", async (userId) => {
+      const response = await authService.profileOther(userId);
+      return response;
+});
 export const logoutThunk = createAsyncThunk(
     "auth/logout", async () => {
       return await authService.logout();
 });
 export const updateUserThunk = createAsyncThunk(
-      "user/updateUser", async (user) => {
-      await authService.updateUser(user);
-      return user;
-    }
-);
+    "user/updateUser", async (user) => {
+    await authService.updateUser(user);
+    return user;
+});
 export const registerThunk = createAsyncThunk(
     "auth/register",
-    async ({username, password, email}) => {
-      const user = await authService.register({username, password, email});
+    async ({username, password, email, avatarUrl}) => {
+      const user = await authService.register({username, password, email, avatarUrl});
       return user;
     }
 );
