@@ -15,6 +15,20 @@ const ProfileOther = () => {
     const otherUserData = useSelector(state => state.user.otherUser);
     console.log('Other user data from store:', otherUserData);
     console.log('Status from store:', status);
+    
+    // 使用本地状态存储首次加载的用户数据
+    const [initialUserData, setInitialUserData] = useState(null);
+
+    useEffect(() => {
+        if (id) {
+            // 使用获取到的 id 来请求用户数据
+            const fetchData = async () => {
+                const { payload } = await dispatch(profileOtherThunk(id));
+                setInitialUserData(payload);
+            }
+            fetchData();
+        }
+    }, [id, dispatch]);
 
     // 新增状态，用于存储followUsers的数据
     const [follows, setFollows] = useState([]);
@@ -112,10 +126,9 @@ const ProfileOther = () => {
             <Nav />
             <div className="profile-other_banner">
                 <div className="banner_info_container">
-                    <img src={otherUserData.avatar} alt="User Avatar" className="profile-other_user-avatar" />
-                    {console.log('Other user data from store2:', otherUserData)}
-                    <h2 className="profile-other_username">{otherUserData.username}</h2>
-                    <img src={otherUserData.bannerImage} className="banner-image"/>
+                    <img src={initialUserData?.avatar} alt="User Avatar" className="profile-other_user-avatar" />
+                    <h2 className="profile-other_username">{initialUserData?.username}</h2>
+                    <img src={initialUserData?.bannerImage} className="banner-image"/>
                 </div>
             </div>
             {renderFollowItems(follows, 'avatar', 'username', 'Follows')}
