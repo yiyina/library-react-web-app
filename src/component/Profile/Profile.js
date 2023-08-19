@@ -20,6 +20,7 @@ function Profile() {
     };
 
     const save = async () => {
+        console.log(currentUser);
         await dispatch(updateUserThunk(profile));
     };
 

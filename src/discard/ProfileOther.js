@@ -9,65 +9,33 @@ import './ProfileOther.css';
 const ProfileOther = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
+    const otherUserData = useSelector(state => state.user.otherUser);
     const status = useSelector(state => state.user.status);
     const error = useSelector(state => state.user.error);
 
-    const otherUserData = useSelector(state => state.user.otherUser);
-    console.log('Other user data from store:', otherUserData);
-    console.log('Status from store:', status);
-
     // 新增状态，用于存储followUsers的数据
-    const [follows, setFollows] = useState([]);
+    const [followUsers, setFollowUsers] = useState([]);
     const [followers, setFollowers] = useState([]);
-    const [hasLoadedFollows, setHasLoadedFollows] = useState(false);
-    const [hasLoadedFollowers, setHasLoadedFollowers] = useState(false);
     
     useEffect(() => {
-        if (otherUserData) {
-        }
+        console.log('otherUserData.follows:', otherUserData.follows);
         if (id) {
             dispatch(profileOtherThunk(id));
         }
     }, [dispatch, id]);
 
     useEffect(() => {
-        setHasLoadedFollows(false);
-        setHasLoadedFollowers(false);
-    }, [id]);
+        const loadFollowUsers = async () => {
+            const users = [];
+            for (const followId of otherUserData.follows || []) {
+                const user = await dispatch(profileOtherThunk(followId));
+                users.push(user.payload); // 这里我们将 user.payload 添加到数组，而不是 user
+            }
+            setFollowUsers(users);
+        };
 
-    useEffect(() => {
-        if (status === 'succeeded' && otherUserData && !hasLoadedFollows) {
-            const loadFollows = async () => {
-                const followIds = otherUserData.follows || [];
-                const followsData = await Promise.all(
-                    followIds.map(async followId => {
-                        const followData = await dispatch(profileOtherThunk(followId));
-                        return followData.payload;
-                    })
-                );
-                setFollows(followsData);
-            };
-            loadFollows();
-            setHasLoadedFollows(true);
-        }
-    }, [status, otherUserData, hasLoadedFollows, dispatch]);
-
-    useEffect(() => {
-        if (status === 'succeeded' && otherUserData && !hasLoadedFollowers) {
-            const loadFollowers = async () => {
-                const followerIds = otherUserData.followers || [];
-                const followersData = await Promise.all(
-                    followerIds.map(async followerId => {
-                        const followerData = await dispatch(profileOtherThunk(followerId));
-                        return followerData.payload;
-                    })
-                );
-                setFollowers(followersData);
-            };
-            loadFollowers();
-            setHasLoadedFollowers(true);
-        }
-    }, [status, otherUserData, hasLoadedFollowers, dispatch]);
+        loadFollowUsers();
+    }, [otherUserData, dispatch]);
 
     
 
@@ -85,8 +53,9 @@ const ProfileOther = () => {
                 <h3>{label}</h3>
                 {list.map((item, index) => (
                     <div key={index} className="follow-item"> {/* 这里用 index 作为 key，因为 item 没有 _id */}
+                        {console.log("username: ", item[usernameKey])}
                         <img src={item[avatarKey]} alt={`${item[usernameKey]} Avatar`} />
-                        <div>{item[usernameKey]}</div>
+                        <span>{item[usernameKey]}</span>
                     </div>
                 ))}
             </div>
@@ -107,19 +76,17 @@ const ProfileOther = () => {
     };
 
     return (
-        
         <div className="profile-other">
             <Nav />
             <div className="profile-other_banner">
                 <div className="banner_info_container">
                     <img src={otherUserData.avatar} alt="User Avatar" className="profile-other_user-avatar" />
-                    {console.log('Other user data from store2:', otherUserData)}
                     <h2 className="profile-other_username">{otherUserData.username}</h2>
                     <img src={otherUserData.bannerImage} className="banner-image"/>
                 </div>
             </div>
-            {renderFollowItems(follows, 'avatar', 'username', 'Follows')}
-            {renderFollowItems(followers, 'avatar', 'username', 'Followers')}
+            {renderFollowItems(followUsers, 'avatar', 'username', 'Follows')}
+            {/* {renderFollowItems(otherUserData.followers || [], 'avatar', 'username', 'Followers')} */}
             {renderLikesOrComments(otherUserData.likes || [], 'Liked Books')}
             {renderLikesOrComments(otherUserData.bookComments || [], 'Commenter Books')}
             {/* <Follows/> */}

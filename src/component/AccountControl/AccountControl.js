@@ -14,7 +14,7 @@ const AccountControl = () => {
 
   const handleLogout = () => {
     dispatch(clearUser());
-    navigate("/users/profile");
+    navigate("/users/login");
   };
 
   return (

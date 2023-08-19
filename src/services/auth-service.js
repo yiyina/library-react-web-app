@@ -49,4 +49,4 @@ export const register = async ({ username, password, email, avatarUrl }) => {
         console.log(error);
         throw new Error(error.response.data.message);
     }  
- };
+};
