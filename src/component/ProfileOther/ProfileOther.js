@@ -5,9 +5,15 @@ import { Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import './ProfileOther.css';
 import FollowFollower from '../FollowFollower/FollowFollower.js';
+import ProfileBanner from './ProfileBanner.js';
 
 const ProfileOther = () => {
+    const { currentUser } = useSelector((state) => state.user);
+    console.log("profile other currenr user: ", currentUser);
     const { id } = useParams();
+    if (!id && currentUser) {
+        id = currentUser._id;
+    }
     const dispatch = useDispatch();
     const status = useSelector(state => state.user.status);
     const error = useSelector(state => state.user.error);
@@ -111,16 +117,13 @@ const ProfileOther = () => {
     };
 
     return (
-        
         <div className="profile-other">
             <Nav />
-            <div className="profile-other_banner">
-                <div className="banner_info_container">
-                    <img src={initialUserData?.avatar} alt="User Avatar" className="profile-other_user-avatar" />
-                    <h2 className="profile-other_username">{initialUserData?.username}</h2>
-                    <img src={initialUserData?.bannerImage} className="banner-image"/>
-                </div>
-            </div>
+            <ProfileBanner 
+                avatar={initialUserData?.avatar} 
+                username={initialUserData?.username} 
+                bannerImage={initialUserData?.bannerImage} 
+            />
             <FollowFollower list={follows} avatarKey='avatar' usernameKey='username' label='Follows' />
             <FollowFollower list={followers} avatarKey='avatar' usernameKey='username' label='Followers' />
             {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
