@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UPDATE_SUCCESS,loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk } from "../../services/auth-thunks.js";
+import { UPDATE_SUCCESS,loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk, addFollowToUserThunk } from "../../services/auth-thunks.js";
 
 const userSlice = createSlice({
   name: "auth",
@@ -23,6 +23,15 @@ const userSlice = createSlice({
     },
   },
   extraReducers: {
+    [registerThunk.fulfilled]: (state, { payload }) => {
+      state.status = 'succeeded';
+      state.currentUser = payload;
+      state.error = null;
+    },
+    [registerThunk.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
     [loginThunk.pending]: (state) => {
       state.status = 'loading';
       state.error = null;
@@ -79,7 +88,6 @@ const userSlice = createSlice({
 
     [updateUserThunk.fulfilled]: (state, { payload }) => {
       state.currentUser = payload;
-      console.log(payload);
     },
     [updateUserThunk.pending]: (state) => {
       state.status = 'loading';
@@ -89,14 +97,10 @@ const userSlice = createSlice({
       console.error('Failed to update user:', action.error.message);
       state.error = action.error.message;
     },
-    [registerThunk.fulfilled]: (state, { payload }) => {
-      state.status = 'succeeded';
-      state.currentUser = payload;
+    [addFollowToUserThunk.fulfilled]: (state, { payload }) => {
+      state.currentUser = payload.updatedCurrentUser; // Assuming the backend sends the updated current user as 'updatedCurrentUser'
+      state.otherUser = payload.updatedFollowedUser;  // Optionally update the followed user if necessary
       state.error = null;
-    },
-    [registerThunk.rejected]: (state, action) => {
-      state.status = 'failed';
-      state.error = action.error.message;
     }
   }
 });

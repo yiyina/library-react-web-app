@@ -31,6 +31,13 @@ export const logoutThunk = createAsyncThunk(
 });
 export const updateUserThunk = createAsyncThunk(
     "user/updateUser", async (user) => {
-    await authService.updateUser(user);
-    return user;
+     await authService.updateUser(user);
+     return user;
 });
+export const addFollowToUserThunk = createAsyncThunk(
+    "user/addFollowToUser", 
+    async ({ userId, currentUser }, thunkAPI) => {
+        const response = await authService.addFollowToUser(userId, currentUser);
+        return response;
+    }
+);

@@ -3,6 +3,18 @@ const SERVER_API_URL = process.env.REACT_APP_SERVER_API_URL;
 const USERS_URL = `${SERVER_API_URL}/users`;
 const api = axios.create({ withCredentials: true });
 
+
+export const register = async ({ username, password, email, avatarUrl }) => {
+    try{
+        console.log(`${USERS_URL}/register`);
+        const response = await api.post(`${USERS_URL}/register`, { username, password, email, avatarUrl });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        throw new Error(error.response.data.message);
+    }  
+};
 export const login = async ({ username, password }) => {
     try{
         const response = await api.post(`${USERS_URL}/login`, { username, password });
@@ -26,6 +38,10 @@ export const profile = async () => {
         throw error;
     }
 };
+export const updateUser = async (user) => {
+    const response = await api.put(`${USERS_URL}`, user); // ${user._id}
+    return response.data;
+};
 export const profileOther = async (userId) => {
     try {
         const response = await api.get(`${USERS_URL}/profile/${userId}`);
@@ -34,19 +50,7 @@ export const profileOther = async (userId) => {
         throw error;
     }
 }
-
-export const updateUser = async (user) => {
-    const response = await api.put(`${USERS_URL}`, user); // ${user._id}
+export const addFollowToUser = async (userId, currentUser) => {
+    const response = await api.post(`${USERS_URL}/follow/${userId}`, { currentUser: currentUser });
     return response.data;
-};
-export const register = async ({ username, password, email, avatarUrl }) => {
-    try{
-        console.log(`${USERS_URL}/register`);
-        const response = await api.post(`${USERS_URL}/register`, { username, password, email, avatarUrl });
-        console.log(response.data);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        throw new Error(error.response.data.message);
-    }  
-};
+}
