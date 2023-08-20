@@ -5,6 +5,7 @@ import { faUserClock } from "@fortawesome/free-solid-svg-icons";
 import "./RecentLogin.css";
 
 function formatDate(loginTime) {
+  console.log("Logintime", loginTime)
   if (!loginTime) {
     return "Never Logged in";
   }
@@ -75,6 +76,7 @@ function RecentLogin() {
               </Link>
               <div className="recent-login-time">
                 {formatDate(user.loginTime)}
+                {console.log("RecentLogin: ", user)}
               </div>
             </div>
           </div>

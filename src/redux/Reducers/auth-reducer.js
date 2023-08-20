@@ -34,7 +34,8 @@ const userSlice = createSlice({
     },
     [loginThunk.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = null; //action.error.message;
+      // state.error = null;
+      state.error = action.error.message;
   },
     [logoutThunk.fulfilled]: (state) => {
       state.status = 'succeeded';

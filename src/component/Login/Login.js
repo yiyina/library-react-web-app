@@ -16,23 +16,30 @@ const Login = () => {
   const handleLogin = async () => {
     setError(null);
 
-    if (!username || !password) {
-      setError("All fields are required.");
-      return;
-    }
+    // if (!username || !password) {
+    //   setError("All fields are required.");
+    //   return;
+    // }
 
     try {
-      const result = await dispatch(loginThunk({ username, password }));
-
-      if (loginThunk.fulfilled.match(result)) {
-        navigate('/users/profile');
-      } else if (loginThunk.rejected.match(result)) {
-        const message = "Username or password is incorrect.";
-        // const message = result.error.message || "Username or password is incorrect.";
-        setError(message);
-      }
+        const result = await dispatch(loginThunk({ username, password }));
+        console.log("error message", error);
+        if (loginThunk.fulfilled.match(result)) {
+            navigate('/users/profile');
+        } else if (loginThunk.rejected.match(result)) {
+            
+            const { status, error } = result.payload;
+            if (status === 403) {
+                setError(error.message);
+            } else if (status === 401) {
+                setError(error.message);
+            } else {
+                setError("An error occurred during login.");
+            }
+        }
     } catch (error) {
-      setError("An error occurred during login.");
+
+        setError("An error occurred during login.");
     }
   };
 

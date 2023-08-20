@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { profileOtherThunk } from '../../services/auth-thunks.js';
 import { Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ProfileOther.css';
-// import Follows from '../Follows/Follows.js';
 
 const ProfileOther = () => {
     const { id } = useParams();
@@ -13,15 +13,13 @@ const ProfileOther = () => {
     const error = useSelector(state => state.user.error);
 
     const otherUserData = useSelector(state => state.user.otherUser);
-    console.log('Other user data from store:', otherUserData);
-    console.log('Status from store:', status);
     
-    // 使用本地状态存储首次加载的用户数据
+    // Use local state to store first-loaded user data
     const [initialUserData, setInitialUserData] = useState(null);
 
     useEffect(() => {
         if (id) {
-            // 使用获取到的 id 来请求用户数据
+            // Use the obtained id to request user data
             const fetchData = async () => {
                 const { payload } = await dispatch(profileOtherThunk(id));
                 setInitialUserData(payload);
@@ -30,7 +28,7 @@ const ProfileOther = () => {
         }
     }, [id, dispatch]);
 
-    // 新增状态，用于存储followUsers的数据
+    // Added state to store data of followUsers
     const [follows, setFollows] = useState([]);
     const [followers, setFollowers] = useState([]);
     const [hasLoadedFollows, setHasLoadedFollows] = useState(false);
@@ -56,7 +54,10 @@ const ProfileOther = () => {
                 const followsData = await Promise.all(
                     followIds.map(async followId => {
                         const followData = await dispatch(profileOtherThunk(followId));
-                        return followData.payload;
+                        return {
+                            ...followData.payload,
+                            _id: followId // Add this line to ensure _id is included in each user object
+                        };
                     })
                 );
                 setFollows(followsData);
@@ -65,6 +66,7 @@ const ProfileOther = () => {
             setHasLoadedFollows(true);
         }
     }, [status, otherUserData, hasLoadedFollows, dispatch]);
+    
 
     useEffect(() => {
         if (status === 'succeeded' && otherUserData && !hasLoadedFollowers) {
@@ -73,7 +75,10 @@ const ProfileOther = () => {
                 const followersData = await Promise.all(
                     followerIds.map(async followerId => {
                         const followerData = await dispatch(profileOtherThunk(followerId));
-                        return followerData.payload;
+                        return {
+                            ...followerData.payload,
+                            _id: followerId 
+                        };
                     })
                 );
                 setFollowers(followersData);
@@ -82,6 +87,7 @@ const ProfileOther = () => {
             setHasLoadedFollowers(true);
         }
     }, [status, otherUserData, hasLoadedFollowers, dispatch]);
+    
 
     
 
@@ -97,12 +103,16 @@ const ProfileOther = () => {
         return (
             <div className="follow-section">
                 <h3>{label}</h3>
-                {list.map((item, index) => (
-                    <div key={index} className="follow-item"> {/* 这里用 index 作为 key，因为 item 没有 _id */}
-                        <img src={item[avatarKey]} alt={`${item[usernameKey]} Avatar`} />
-                        <div>{item[usernameKey]}</div>
-                    </div>
-                ))}
+                <div className="follow-items">
+                    {list.map((item, index) => (
+                        <div key={index} className="follow-item">
+                            <Link to={`/users/profile/${item._id}`}>
+                                <img src={item[avatarKey]} alt={`${item[usernameKey]} Avatar`} />
+                                <div>{item[usernameKey]}</div>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     };
@@ -133,9 +143,8 @@ const ProfileOther = () => {
             </div>
             {renderFollowItems(follows, 'avatar', 'username', 'Follows')}
             {renderFollowItems(followers, 'avatar', 'username', 'Followers')}
-            {renderLikesOrComments(otherUserData.likes || [], 'Liked Books')}
-            {renderLikesOrComments(otherUserData.bookComments || [], 'Commenter Books')}
-            {/* <Follows/> */}
+            {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
+            {renderLikesOrComments(otherUserData?.bookComments || [], 'Commenter Books')}
         </div>
     );
 }

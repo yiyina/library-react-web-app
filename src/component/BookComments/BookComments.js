@@ -3,11 +3,17 @@ import React, { useState, useEffect} from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom'; 
 import "./BookComments.css";
+import { Alert } from 'react-bootstrap';
 
+
+
+ 
 const SERVER_API_URL = process.env.REACT_APP_SERVER_API_URL;
 const BOOKS_DETAILS_URL = `${SERVER_API_URL}/books/details`;
 const BOOKS_URL = `${SERVER_API_URL}/books`;
+const BOOK_LIKES_URL = `${SERVER_API_URL}/books/like`;
 const api = axios.create({ withCredentials: true });
+
 
 
 const BookComments = () => {
@@ -16,7 +22,9 @@ const BookComments = () => {
   const { searchContent, id } = useParams();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
+  const [error, setError] = useState(null);
 
   const fetchCommentsFromDatabase = async () => {
     try{
@@ -37,24 +45,56 @@ const BookComments = () => {
     fetchCommentsFromDatabase();
   }, [id]);
 
+  const handleLikeClick = async () => {
+		console.log("like clicked");
+		console.log(currentUser, "likes");
+    const response = await api.put(`${BOOK_LIKES_URL}/${id}`, currentUser);
+    console.log(response);
+    if(response.ok){
+      setLikes([...likes, {id: likes.length + 1}]);
+    }
+    setLiked(!liked);
+  };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(currentUser);
     if (newComment.trim() !== '') {
       const body = {
         user: currentUser,
         comment: newComment
       }
-      const response = await api.post(`${BOOKS_URL}/${id}`, body);
-      if(response.ok){
-        setComments([...comments, { id: comments.length + 1, text: newComment, name: 'Your Name', avatar: 'path_to_your_avatar.jpg' }]);
-        setNewComment('');
+      try{
+        const response = await api.post(`${BOOKS_URL}/${id}`, body);
+        if(response.ok){
+          setComments([...comments, { id: comments.length + 1, text: newComment, name: 'username', avatar: 'user avatar' }]);
+          setNewComment('');
+        }
+      }catch(error){
+        setError(error);
       }
+      
     }
   };
+
+
+
+
+  
   return (
     <div className="book-comments">
-      <h3>Likes</h3>
+      <div className="row">
+      <Alert variant="danger">{error && error.message}</Alert>
+
+        <span className="col-7"><h3>Like this book?</h3></span>
+        <span className="col-3">
+          <i className="bi bi-heart" 
+            style={{color: liked ? "red" : ""}}
+            onClick={handleLikeClick}></i>
+				<span className="col-2">{liked ? likes.length + 1: likes.length}</span>
+			</span>
+      </div>
+      
+      
       <p id="likes-list">{likes.map((like, index) => (index > 0 ? ' ' : '') + like.user.username)}</p>
       <h3>Comments</h3>
       <form onSubmit={handleSubmit} className="comment-form">
@@ -74,7 +114,7 @@ const BookComments = () => {
               <div className="comment-content">
                 {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}
                 {/* <span className="comment-author">{comment.user.username}</span> */}
-                <p className="comment-text">{comment.content}</p>
+                <p className="comment-text">{comment.content}{new Date() - comment.commentTime}</p>
               </div>
             </div>
           </li>
