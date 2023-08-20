@@ -1,0 +1,9 @@
+.username-link {
+    text-decoration: none; /* 去掉下划线 */
+    color: black; /* 设置为黑色 */
+    font-family:'Times New Roman', Times, serif;
+}
+
+.username-link:hover {
+    color: blue; /* 鼠标悬停时变为蓝色 */
+}

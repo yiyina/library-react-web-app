@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { profileOtherThunk } from '../../services/auth-thunks.js';
 import { Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import './ProfileOther.css';
+import FollowFollower from '../FollowFollower/FollowFollower.js';
 
 const ProfileOther = () => {
     const { id } = useParams();
@@ -23,6 +23,7 @@ const ProfileOther = () => {
             const fetchData = async () => {
                 const { payload } = await dispatch(profileOtherThunk(id));
                 setInitialUserData(payload);
+                console.log(payload);
             }
             fetchData();
         }
@@ -87,9 +88,6 @@ const ProfileOther = () => {
             setHasLoadedFollowers(true);
         }
     }, [status, otherUserData, hasLoadedFollowers, dispatch]);
-    
-
-    
 
     if (status === 'loading') {
         return <div>Loading...</div>;
@@ -98,24 +96,6 @@ const ProfileOther = () => {
     if (status === 'failed') {
         return <div>Error: {error}</div>;
     }
-
-    const renderFollowItems = (list, avatarKey, usernameKey, label) => {
-        return (
-            <div className="follow-section">
-                <h3>{label}</h3>
-                <div className="follow-items">
-                    {list.map((item, index) => (
-                        <div key={index} className="follow-item">
-                            <Link to={`/users/profile/${item._id}`}>
-                                <img src={item[avatarKey]} alt={`${item[usernameKey]} Avatar`} />
-                                <div>{item[usernameKey]}</div>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    };
 
     const renderLikesOrComments = (list, contentKey) => {
         return (
@@ -141,8 +121,8 @@ const ProfileOther = () => {
                     <img src={initialUserData?.bannerImage} className="banner-image"/>
                 </div>
             </div>
-            {renderFollowItems(follows, 'avatar', 'username', 'Follows')}
-            {renderFollowItems(followers, 'avatar', 'username', 'Followers')}
+            <FollowFollower list={follows} avatarKey='avatar' usernameKey='username' label='Follows' />
+            <FollowFollower list={followers} avatarKey='avatar' usernameKey='username' label='Followers' />
             {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
             {renderLikesOrComments(otherUserData?.bookComments || [], 'Commenter Books')}
         </div>

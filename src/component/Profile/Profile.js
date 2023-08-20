@@ -8,6 +8,7 @@ import "./Profile.css";
 function Profile() {
     const { currentUser } = useSelector((state) => state.user);
     const [profile, setProfile] = useState({ ...currentUser });
+    const [updateSuccess, setUpdateSuccess] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,17 +21,22 @@ function Profile() {
     };
 
     const save = async () => {
-        console.log(currentUser);
-        await dispatch(updateUserThunk(profile));
+        if (JSON.stringify(currentUser) !== JSON.stringify(profile)) {
+            const resultAction = await dispatch(updateUserThunk(profile));
+            if (updateUserThunk.fulfilled.match(resultAction)) {
+                setUpdateSuccess(true);
+            }
+        } else {
+            alert('You did not change anything.');
+        }
     };
-
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        setProfile({
-            ...profile,
-            avatar: file,
-        });
-    };
+    
+    useEffect(() => {
+        if (updateSuccess) {
+            alert('Profile updated successfully!');
+            setUpdateSuccess(false);
+        }
+    }, [updateSuccess]);
 
     useEffect(() => {
         const loadProfile = async () => {

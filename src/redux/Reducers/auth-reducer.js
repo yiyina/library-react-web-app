@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk } from "../../services/auth-thunks.js";
+import { UPDATE_SUCCESS,loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk } from "../../services/auth-thunks.js";
 
 const userSlice = createSlice({
   name: "auth",
@@ -36,7 +36,7 @@ const userSlice = createSlice({
       state.status = 'failed';
       // state.error = null;
       state.error = action.error.message;
-  },
+    },
     [logoutThunk.fulfilled]: (state) => {
       state.status = 'succeeded';
       state.currentUser = null;

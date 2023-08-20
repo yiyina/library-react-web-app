@@ -25,19 +25,43 @@ const BookComments = () => {
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [error, setError] = useState(null);
+  const [timeAgo, setTimeAgo] = useState('');
 
   const fetchCommentsFromDatabase = async () => {
     try{
       const response = await fetch(`${BOOKS_DETAILS_URL}/${id}`);
       if(response.ok){
         const commentsAndLikesData = await response.json();
-        setComments(commentsAndLikesData.comments);
+        const currentTime = new Date(); // Current time
+        // console.log(currentTime);
+        // console.log(commentsAndLikesData.comments[0].commentTime);
+        // console.log(new Date(commentsAndLikesData.comments[0].commentTime));
+        // console.log(currentTime - new Date(commentsAndLikesData.comments[0].commentTime))
+        const commentsAndLikesData_time = commentsAndLikesData.comments.map(comment => ({
+          ...comment,
+          timeAgo: getTimeAgo(currentTime, new Date(comment.commentTime))
+        }));
+        setComments(commentsAndLikesData_time);
         setLikes(commentsAndLikesData.likes);
       }else{
         console.error('Failed to fetch comments and likes');
       }
     }catch(error) {
       console.error('Error fetching comments and likes:', error);
+    }
+  }
+
+  const getTimeAgo = (currentTime, commentTime) => {
+    const timeDifference = currentTime - commentTime;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+    // return minutesDifference;
+    // Update the time ago string based on the difference
+    if (minutesDifference < 1) {
+      return ('Just now');
+    } else if (minutesDifference < 60) {
+      return (`${minutesDifference} minutes ago`);
+    } else {
+      return (`${Math.floor(minutesDifference / 60)} hours ago`);
     }
   }
 
@@ -77,8 +101,6 @@ const BookComments = () => {
   };
 
 
-
-
   
   return (
     <div className="book-comments">
@@ -112,9 +134,13 @@ const BookComments = () => {
             <div className="comment-header">
               <img src={comment.avatar} alt={`${comment.user.username}'s Avatar`} />
               <div className="comment-content">
-                {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}
+                {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}{' '}{comment.timeAgo}
                 {/* <span className="comment-author">{comment.user.username}</span> */}
-                <p className="comment-text">{comment.content}{new Date() - comment.commentTime}</p>
+                <div className="row">
+                  <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
+                
+                </div>
+                
               </div>
             </div>
           </li>
