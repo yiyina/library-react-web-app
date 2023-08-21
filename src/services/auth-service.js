@@ -54,3 +54,7 @@ export const addFollowToUser = async (userId, currentUser) => {
     const response = await api.post(`${USERS_URL}/follow/${userId}`, { currentUser: currentUser });
     return response.data;
 }
+export const getBookDetailsByProfile = async (bookId) => {
+    const response = await api.get(`${SERVER_API_URL}/books/details/profile/${bookId}`);
+    return response.data;
+}

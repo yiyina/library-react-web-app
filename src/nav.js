@@ -13,11 +13,11 @@ function Nav() {
       <Link className="nav-link" to="/users/profile" style={navLinkStyle}>
         Information
       </Link>
-      <Link className="nav-link" to="/users/profile" style={navLinkStyle}>
+      <Link className="nav-link" to="/users/relationships" style={navLinkStyle}>
         Follows and Followers
       </Link>
-      <Link className="nav-link" to="/users/profile" style={navLinkStyle}>
-        Book Likes
+      <Link className="nav-link" to="/users/profile/bookcollections" style={navLinkStyle}>
+        Book Collections
       </Link>
     </nav>
   );

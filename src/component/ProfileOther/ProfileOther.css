@@ -78,11 +78,15 @@
     margin-right: 15px;
 }
 
-.likes-comments-section ul {
+.book-section ul {
     list-style: none;
     padding-left: 0;
 }
 
-.likes-comments-section li {
+.book-section li {
     margin-bottom: 10px;
+}
+.book-items img {
+    max-width: 100px; /* 或其他你希望的宽度 */
+    height: auto;
 }

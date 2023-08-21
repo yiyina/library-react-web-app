@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UPDATE_SUCCESS,loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk, addFollowToUserThunk } from "../../services/auth-thunks.js";
+import { loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk, addFollowToUserThunk, getBookDetailsByProfileThunk } from "../../services/auth-thunks.js";
 
 const userSlice = createSlice({
   name: "auth",
   initialState: {
     currentUser: null,
     otherUser: null,
+    likedBooksDetails: [],
+    commentedBooksDetails: [],
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
     error: null,
     firstName: "",
@@ -101,6 +103,15 @@ const userSlice = createSlice({
       state.currentUser = payload.updatedCurrentUser; // Assuming the backend sends the updated current user as 'updatedCurrentUser'
       state.otherUser = payload.updatedFollowedUser;  // Optionally update the followed user if necessary
       state.error = null;
+    },
+    [getBookDetailsByProfileThunk.fulfilled]: (state, action) => {
+      state.likedBooksDetails = action.payload.likedBooks;
+      state.commentedBooksDetails = action.payload.commentedBooks;
+      state.status = 'succeeded';
+    },
+    [getBookDetailsByProfileThunk.rejected]: (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
     }
   }
 });

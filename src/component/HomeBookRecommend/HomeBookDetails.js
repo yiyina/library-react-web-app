@@ -71,9 +71,9 @@ const HomeBookDetails = () => {
         <button
           type="button"
           className="btn btn-light back-btn"
-          onClick={() => navigate('/home')}>
+          onClick={() => navigate(-1)}>
           <i className="fas fa-arrow-left mr-2"></i>
-          <span className="fs-18 fw-6">Back to Home</span>
+          <span className="fs-18 fw-6">Go Back</span>
         </button>
         <div className="book-details-content grid">
           <div className="book-details-img d-none d-lg-block">

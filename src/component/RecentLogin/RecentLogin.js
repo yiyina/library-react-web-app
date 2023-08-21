@@ -76,7 +76,6 @@ function RecentLogin() {
               </Link>
               <div className="recent-login-time">
                 {formatDate(user.loginTime)}
-                {console.log("RecentLogin: ", user)}
               </div>
             </div>
           </div>

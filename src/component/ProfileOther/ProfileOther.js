@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { profileOtherThunk } from '../../services/auth-thunks.js';
+import { profileOtherThunk, getBookDetailsByProfileThunk } from '../../services/auth-thunks.js';
 import { Nav } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import './ProfileOther.css';
-import FollowFollower from '../FollowFollower/FollowFollower.js';
 import ProfileBanner from './ProfileBanner.js';
+import FollowFollower from '../ProfileInfo/FollowFollower.js';
+import RelatedBooks from '../ProfileInfo/RelatedBooks.js';
 
 const ProfileOther = () => {
     const { currentUser } = useSelector((state) => state.user);
-    console.log("profile other currenr user: ", currentUser);
     const { id } = useParams();
     if (!id && currentUser) {
         id = currentUser._id;
@@ -29,7 +29,7 @@ const ProfileOther = () => {
             const fetchData = async () => {
                 const { payload } = await dispatch(profileOtherThunk(id));
                 setInitialUserData(payload);
-                console.log(payload);
+                console.log("current cliked user: ", payload);
             }
             fetchData();
         }
@@ -40,7 +40,12 @@ const ProfileOther = () => {
     const [followers, setFollowers] = useState([]);
     const [hasLoadedFollows, setHasLoadedFollows] = useState(false);
     const [hasLoadedFollowers, setHasLoadedFollowers] = useState(false);
-    
+    // Added state to store data of relatedBooks
+    const [likedBooksDetails, setLikedBooksDetails] = useState([]);
+    const [commentedBooksDetails, setCommentedBooksDetails] = useState([]);    
+    const [hasLoadedLikedBooks, setHasLoadedLikedBooks] = useState([]);
+    const [hasLoadedCommentedBooks, setHasLoadedCommentedBooks] = useState([]);
+
     useEffect(() => {
         if (otherUserData) {
         }
@@ -52,6 +57,8 @@ const ProfileOther = () => {
     useEffect(() => {
         setHasLoadedFollows(false);
         setHasLoadedFollowers(false);
+        setHasLoadedLikedBooks(false);
+        setHasLoadedCommentedBooks(false);
     }, [id]);
 
     useEffect(() => {
@@ -95,6 +102,46 @@ const ProfileOther = () => {
         }
     }, [status, otherUserData, hasLoadedFollowers, dispatch]);
 
+    useEffect(() => {
+        if (status === 'succeeded' && otherUserData && !hasLoadedLikedBooks) {
+            const fetchLikedBooks = async () => {
+                const likedBookIds = otherUserData.likes.map(like => like.book);
+                const booksData = await Promise.all(
+                    likedBookIds.map(async bookId => {
+                        const response = await dispatch(getBookDetailsByProfileThunk(bookId));
+                        return {
+                            ...response.payload,
+                            _id: bookId
+                        };
+                    })
+                );
+                setLikedBooksDetails(booksData);
+            };
+            fetchLikedBooks();
+            setHasLoadedLikedBooks(true);
+        }
+    }, [status, otherUserData, hasLoadedLikedBooks, dispatch]);
+
+    useEffect(() => {
+        if (status === 'succeeded' && otherUserData && !hasLoadedCommentedBooks) {
+            const fetchCommentedBooks = async () => {
+                const commentedBookIds = otherUserData.comments.map(comment => comment.book);
+                const booksData = await Promise.all(
+                    commentedBookIds.map(async bookId => {
+                        const response = await dispatch(getBookDetailsByProfileThunk(bookId));
+                        return {
+                            ...response.payload,
+                            _id: bookId
+                        };
+                    })
+                );
+                setCommentedBooksDetails(booksData);
+            };
+            fetchCommentedBooks();
+            setHasLoadedCommentedBooks(true);
+        }
+    }, [status, otherUserData, hasLoadedCommentedBooks, dispatch]);
+
     if (status === 'loading') {
         return <div>Loading...</div>;
     }
@@ -126,8 +173,10 @@ const ProfileOther = () => {
             />
             <FollowFollower list={follows} avatarKey='avatar' usernameKey='username' label='Follows' />
             <FollowFollower list={followers} avatarKey='avatar' usernameKey='username' label='Followers' />
-            {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
-            {renderLikesOrComments(otherUserData?.bookComments || [], 'Commenter Books')}
+            {/* {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
+            {renderLikesOrComments(otherUserData?.bookComments || [], 'Commenter Books')} */}
+            <RelatedBooks list={likedBooksDetails} titleKey='title' authorKey='author' label='Liked Books' />
+            <RelatedBooks list={commentedBooksDetails} titleKey='title' authorKey='author' label='Commented Books' />
         </div>
     );
 }

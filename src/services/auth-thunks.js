@@ -41,3 +41,10 @@ export const addFollowToUserThunk = createAsyncThunk(
         return response;
     }
 );
+export const getBookDetailsByProfileThunk = createAsyncThunk(
+    "book/getDetailsByProfile",
+    async (bookId, thunkAPI) => {
+        const response = await authService.getBookDetailsByProfile(bookId);
+        return response;
+    }
+)
