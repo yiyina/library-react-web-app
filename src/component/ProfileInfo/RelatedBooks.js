@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../ProfileOther/ProfileOther.css';
-import './RelatedBooks.css' // Assuming you have a separate CSS file for RelatedBooks
+import './RelatedBooks.css'
 
 const RelatedBooks = ({ list, titleKey, authorKey, label }) => {
     return (
@@ -14,7 +14,7 @@ const RelatedBooks = ({ list, titleKey, authorKey, label }) => {
                             <Link to={`/home/${item._id}`}>
                                 <div>{item[titleKey]}</div>
                             </Link>
-                            <div>Author: {item[authorKey].join(", ")}</div> {/* Assuming author is an array */}
+                            <div>Author: {item[authorKey].join(", ")}</div>
                         </div>
                     </div>
                 ))}

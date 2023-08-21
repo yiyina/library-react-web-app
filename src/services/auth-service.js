@@ -22,8 +22,6 @@ export const login = async ({ username, password }) => {
     } catch (error) {
         throw error;
     }
-    // const response = await api.post(`${USERS_URL}/login`, { username, password });
-    // return response.data;
 };
 export const logout = async () => { 
     const response = await api.post(`${USERS_URL}/logout`);
@@ -39,7 +37,7 @@ export const profile = async () => {
     }
 };
 export const updateUser = async (user) => {
-    const response = await api.put(`${USERS_URL}`, user); // ${user._id}
+    const response = await api.put(`${USERS_URL}`, user);
     return response.data;
 };
 export const profileOther = async (userId) => {

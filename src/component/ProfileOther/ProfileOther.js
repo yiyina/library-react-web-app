@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileOtherThunk, getBookDetailsByProfileThunk } from '../../services/auth-thunks.js';
-import { Nav } from 'react-bootstrap';
+import Nav from '../../nav.js';
 import { useParams } from 'react-router-dom';
 import './ProfileOther.css';
 import ProfileBanner from './ProfileBanner.js';
@@ -164,19 +164,19 @@ const ProfileOther = () => {
     };
 
     return (
-        <div className="profile-other">
-            <Nav />
-            <ProfileBanner 
-                avatar={initialUserData?.avatar} 
-                username={initialUserData?.username} 
-                bannerImage={initialUserData?.bannerImage} 
-            />
-            <FollowFollower list={follows} avatarKey='avatar' usernameKey='username' label='Follows' />
-            <FollowFollower list={followers} avatarKey='avatar' usernameKey='username' label='Followers' />
-            {/* {renderLikesOrComments(otherUserData?.likes || [], 'Liked Books')}
-            {renderLikesOrComments(otherUserData?.bookComments || [], 'Commenter Books')} */}
-            <RelatedBooks list={likedBooksDetails} titleKey='title' authorKey='author' label='Liked Books' />
-            <RelatedBooks list={commentedBooksDetails} titleKey='title' authorKey='author' label='Commented Books' />
+        <div>
+            {id === currentUser?._id && <Nav />}
+            <div className="profile-other">
+                <ProfileBanner 
+                    avatar={initialUserData?.avatar} 
+                    username={initialUserData?.username} 
+                    bannerImage={initialUserData?.bannerImage} 
+                />
+                <FollowFollower list={follows} avatarKey='avatar' usernameKey='username' label='Follows' />
+                <FollowFollower list={followers} avatarKey='avatar' usernameKey='username' label='Followers' />
+                <RelatedBooks list={likedBooksDetails} titleKey='title' authorKey='author' label='Liked Books' />
+                <RelatedBooks list={commentedBooksDetails} titleKey='title' authorKey='author' label='Commented Books' />
+            </div>
         </div>
     );
 }

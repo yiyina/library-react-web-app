@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./component/Home/Home.js";
 import NavSideBar from "./component/NavSideBar/NavSideBar.js";
 import BookList from "./component/BookList/BookList.js";
@@ -31,7 +31,6 @@ function App() {
           </div>
           <div className="col-10 col-md-8">
             <Routes>
-              {/* <Route path="/" element={<Navigate to="/home" />} /> */}
               <Route path="/home" element={<Home />} />
               <Route path="/home/:id" element={<HomeBookDetails />} />
               <Route path="/search" element={<SearchForm />} />
