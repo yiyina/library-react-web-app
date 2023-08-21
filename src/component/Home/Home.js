@@ -1,16 +1,29 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import HomeBookRecommend from "../HomeBookRecommend/HomeBookRecommend.js";
 import "./Home.css";
 
 const contactEmails = ["yi.yina@bookstore.com", "mia.yan@bookstore.com"];
 
 function Home() {
+    const { currentUser } = useSelector((state) => state.user);
+    
     return (
         <div className="home-container">
             <header className="background-image">
                 <div className="welcome-text">
+                    {currentUser && (
+                        <div className="user-info">
+                            <img 
+                                src={currentUser.avatarUrl || '/default-avatar.png'} 
+                                alt={currentUser.username} 
+                                className="user-avatar" 
+                            />
+                            <div>Hi! {currentUser.username}</div>
+                        </div>
+                    )}
                     <h1>Welcome to the Online Book App!</h1>
-                    <p>Your one-stop shop for all your reading needs.</p>
+                    <p>Your one-stop searching for all your reading needs.</p>
                 </div>
             </header>
             <section className="recommended-books">

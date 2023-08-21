@@ -64,6 +64,7 @@ function RecentLogin() {
                   alt={`${user.username}'s Avatar`}
                   className="recent-login-avatar-img"
                 />
+                {console.log("RecentLogin: ", user)}
                 <div className="avatar-username">{user.username}</div>
               </div>
             </Link>

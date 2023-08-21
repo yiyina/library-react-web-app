@@ -43,7 +43,7 @@ function Profile() {
             const { payload } = await dispatch(profileThunk());
             if (payload) {
                 setProfile(payload);
-                dispatch(setUser(payload)); // It seems you forgot to import `setUser`
+                dispatch(setUser(payload));
             }
         };
         loadProfile();

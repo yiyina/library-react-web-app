@@ -22,21 +22,21 @@ const BookComments = () => {
   const { searchContent, id } = useParams();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [commented, setCommented] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const [error, setError] = useState(null);
   const [timeAgo, setTimeAgo] = useState('');
+  const [refreshComments, setRefreshComments] = useState(false);
 
   const fetchCommentsFromDatabase = async () => {
     try{
       const response = await fetch(`${BOOKS_DETAILS_URL}/${id}`);
+      console.log("Response from adding comment:", response.data);
       if(response.ok){
         const commentsAndLikesData = await response.json();
+        console.log("Comments and Likes data:", commentsAndLikesData);
         const currentTime = new Date(); // Current time
-        // console.log(currentTime);
-        // console.log(commentsAndLikesData.comments[0].commentTime);
-        // console.log(new Date(commentsAndLikesData.comments[0].commentTime));
-        // console.log(currentTime - new Date(commentsAndLikesData.comments[0].commentTime))
         const commentsAndLikesData_time = commentsAndLikesData.comments.map(comment => ({
           ...comment,
           timeAgo: getTimeAgo(currentTime, new Date(comment.commentTime))
@@ -54,8 +54,6 @@ const BookComments = () => {
   const getTimeAgo = (currentTime, commentTime) => {
     const timeDifference = currentTime - commentTime;
     const minutesDifference = Math.floor(timeDifference / (1000 * 60));
-    // return minutesDifference;
-    // Update the time ago string based on the difference
     if (minutesDifference < 1) {
       return ('Just now');
     } else if (minutesDifference < 60) {
@@ -63,25 +61,38 @@ const BookComments = () => {
     } else {
       return (`${Math.floor(minutesDifference / 60)} hours ago`);
     }
-  }
+  } 
 
   useEffect(() => {
     fetchCommentsFromDatabase();
-  }, [id]);
+  }, [id, refreshComments]);  
 
   const handleLikeClick = async () => {
-		console.log("like clicked");
-		console.log(currentUser, "likes");
-    const response = await api.put(`${BOOK_LIKES_URL}/${id}`, currentUser);
-    console.log(response);
-    if(response.ok){
-      setLikes([...likes, {id: likes.length + 1}]);
+    if (liked) {
+      return;  
     }
-    setLiked(!liked);
+    try{
+      const response = await api.put(`${BOOK_LIKES_URL}/${id}`, currentUser);
+      console.log(response);
+      if(response.ok){
+        setLikes([...likes, {id: likes.length + 1}]);
+      }
+      setLiked(!liked);
+    }catch(error){
+      if(error.response.status === 404){
+        error.message = "Please login to add a like";
+      }
+      setError(error);
+    }
+    
   };
 
   const handleSubmit = async(e) => {
+    console.log("handleSubmit is triggered");
     e.preventDefault();
+    if(commented){
+      return;
+    }
     if (newComment.trim() !== '') {
       const body = {
         user: currentUser,
@@ -89,24 +100,32 @@ const BookComments = () => {
       }
       try{
         const response = await api.post(`${BOOKS_URL}/${id}`, body);
-        if(response.ok){
-          setComments([...comments, { id: comments.length + 1, text: newComment, name: 'username', avatar: 'user avatar' }]);
-          setNewComment('');
+        if(response.ok && response.data){
+          const newCommentFromServer = response.data.comment; // 假设服务器返回了新评论在 "comment" 字段中
+          setComments(prevComments => {
+            const updatedComments = [...prevComments, newCommentFromServer];
+            console.log("Updated comments:", updatedComments);
+            return updatedComments;
+          });
+          setNewComment('');       
         }
+        setCommented(!commented);
+        setRefreshComments(!refreshComments);
       }catch(error){
+        console.error("Error in handleSubmit:", error);
+        if(error.response.status === 404){
+          error.message = "Please login to add a comment";
+        }
         setError(error);
       }
-      
     }
   };
-
-
+  
   
   return (
     <div className="book-comments">
       <div className="row">
-      <Alert variant="danger">{error && error.message}</Alert>
-
+      {error && <Alert variant="danger">{error.message}</Alert>}
         <span className="col-7"><h3>Like this book?</h3></span>
         <span className="col-3">
           <i className="bi bi-heart" 
@@ -117,7 +136,7 @@ const BookComments = () => {
       </div>
       
       
-      <p id="likes-list">{likes.map((like, index) => (index > 0 ? ' ' : '') + like.user.username)}</p>
+      <p id="likes-list">{likes.map((like, index) => (index > 0 ? ' ' : ''))}</p>
       <h3>Comments</h3>
       <form onSubmit={handleSubmit} className="comment-form">
         <input
@@ -126,21 +145,20 @@ const BookComments = () => {
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Enter your comment..."
         />
-        <button type="submit" >Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <ul className="comment-list">
         {comments.map((comment) => (
           <li key={comment.id} className="comment-item">
             <div className="comment-header">
-              <img src={comment.avatar} alt={`${comment.user.username}'s Avatar`} />
+              <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
+              {console.log("comment data: ", comment)}
               <div className="comment-content">
                 {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}{' '}{comment.timeAgo}
                 {/* <span className="comment-author">{comment.user.username}</span> */}
                 <div className="row">
                   <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
-                
                 </div>
-                
               </div>
             </div>
           </li>
