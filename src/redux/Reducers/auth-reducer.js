@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk, addFollowToUserThunk, getBookDetailsByProfileThunk } from "../../services/auth-thunks.js";
+import { loginThunk, logoutThunk, profileThunk, profileOtherThunk, updateUserThunk, registerThunk, addFollowToUserThunk, getBookDetailsByProfileThunk, deleteBookCommentThunk } from "../../services/auth-thunks.js";
 
 const userSlice = createSlice({
   name: "auth",
@@ -110,8 +110,16 @@ const userSlice = createSlice({
       state.status = 'succeeded';
     },
     [getBookDetailsByProfileThunk.rejected]: (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [deleteBookCommentThunk.fulfilled]: (state, action) => {
+      state.status = 'success';
+      state.error = null;
+    },
+    [deleteBookCommentThunk.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
     }
   }
 });

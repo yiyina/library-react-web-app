@@ -37,14 +37,25 @@ export const updateUserThunk = createAsyncThunk(
 export const addFollowToUserThunk = createAsyncThunk(
     "user/addFollowToUser", 
     async ({ userId, currentUser }, thunkAPI) => {
-        const response = await authService.addFollowToUser(userId, currentUser);
-        return response;
+      const response = await authService.addFollowToUser(userId, currentUser);
+      return response;
     }
 );
 export const getBookDetailsByProfileThunk = createAsyncThunk(
     "book/getDetailsByProfile",
     async (bookId, thunkAPI) => {
-        const response = await authService.getBookDetailsByProfile(bookId);
-        return response;
+      const response = await authService.getBookDetailsByProfile(bookId);
+      return response;
     }
 )
+export const deleteBookCommentThunk = (data) => async (dispatch) => {
+  try {
+    const response = await authService.deleteBookComment(data.bookId, data.commentId, data.userId);
+    return response;
+  } catch (error) {
+      console.error("Error in deleteBookCommentThunk:", error);
+      throw error;
+  }
+};
+
+

@@ -56,3 +56,9 @@ export const getBookDetailsByProfile = async (bookId) => {
     const response = await api.get(`${SERVER_API_URL}/books/details/profile/${bookId}`);
     return response.data;
 }
+export const deleteBookComment = async (bookId, commentId, userId) => {
+    const response = await api.delete(`${SERVER_API_URL}/books/${bookId}/comments/${commentId}`, {
+        data: { userId: userId }
+    });
+    return response.data;
+}
