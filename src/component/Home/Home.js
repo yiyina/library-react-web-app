@@ -22,7 +22,7 @@ function Home() {
                             <div>Hi! {currentUser.username}</div>
                         </div>
                     )}
-                    <h1>Welcome to the Online Book App!</h1>
+                    <h1>Welcome to the Book Search Web!</h1>
                     <p>Your one-stop searching for all your reading needs.</p>
                 </div>
             </header>

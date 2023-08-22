@@ -13,6 +13,7 @@ import AccountControl from "./component/AccountControl/AccountControl.js";
 import RecentLogin from "./component/RecentLogin/RecentLogin.js";
 import HomeBookDetails from "./component/HomeBookRecommend/HomeBookDetails.js";
 import ProfileOther from "./component/ProfileOther/ProfileOther.js";
+import UserDashboard from "./component/UserDashboard/UserDashboard.js";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -40,6 +41,7 @@ function App() {
               <Route path="/users/register" element={<Register />} />
               <Route path="/users/profile" element={<Profile />} />
               <Route path="/users/profile/:id" element={<ProfileOther />} />
+              <Route path="/user-dashboard" element={<UserDashboard />} />
             </Routes>
           </div>
           <div className="col-md-2 d-none d-md-block">
