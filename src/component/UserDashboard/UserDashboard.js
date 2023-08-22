@@ -47,7 +47,6 @@ const UserDashboard = () => {
   };
 
 	function formatDate(loginTime) {
-		console.log("Logintime", loginTime)
 		if (!loginTime) {
 			return "Never Logged in";
 		}

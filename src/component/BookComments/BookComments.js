@@ -15,13 +15,12 @@ const api = axios.create({ withCredentials: true });
 const BookComments = () => {
 
     const { currentUser } = useSelector((state) => state.user);
-    const { searchContent, id } = useParams();
+    const { id } = useParams();
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState([]);
     const [error, setError] = useState(null);
-    const [timeAgo, setTimeAgo] = useState('');
     const [refreshComments, setRefreshComments] = useState(false);
     const dispatch = useDispatch();
 
@@ -69,7 +68,6 @@ const BookComments = () => {
         }
         try {
             const response = await api.put(`${BOOK_LIKES_URL}/${id}`, currentUser);
-            console.log(response);
             if (response.ok) {
                 setLikes([...likes, { id: likes.length + 1 }]);
             }
@@ -83,7 +81,6 @@ const BookComments = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log("handleSubmit is triggered");
         e.preventDefault();
         if (newComment.trim() !== '') {
             const body = {
@@ -96,14 +93,12 @@ const BookComments = () => {
                     const newCommentFromServer = response.data.comment; 
                     setComments(prevComments => {
                         const updatedComments = [...prevComments, newCommentFromServer];
-                        console.log("Updated comments:", updatedComments);
                         return updatedComments;
                     });
                     setNewComment('');
                 }
                 setRefreshComments(!refreshComments);
             } catch (error) {
-                console.error("Error in handleSubmit:", error);
                 if (error.response.status === 404) {
                     error.message = "Please login to add a comment";
                 }
@@ -112,19 +107,15 @@ const BookComments = () => {
         }
     };
 
-  const deleteComment = async (bid, cid) => {
-      console.log("Triggered deleteComment");
-      try {
-        const result = await dispatch(deleteBookCommentThunk({ bookId: bid, commentId: cid, userId: currentUser._id }));
-        console.log("Result of delete operation:", result);
-        // Update the comments list immediately after successful deletion
-        console.log("Before updating comments state");
-        setComments(prevComments => prevComments.filter(comment => comment._id !== cid));
-        console.log("After updating comments state");
-      } catch (error) {
-        console.error("Error deleting comment:", error);
-      }
-  }
+    const deleteComment = async (bid, cid) => {
+        try {
+            const result = await dispatch(deleteBookCommentThunk({ bookId: bid, commentId: cid, userId: currentUser._id }));
+            // Update the comments list immediately after successful deletion
+            setComments(prevComments => prevComments.filter(comment => comment._id !== cid));
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+        }
+    }
   
   return (
     <div className="book-comments">
