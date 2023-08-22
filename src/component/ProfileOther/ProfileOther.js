@@ -29,7 +29,7 @@ const ProfileOther = () => {
             const fetchData = async () => {
                 const { payload } = await dispatch(profileOtherThunk(id));
                 setInitialUserData(payload);
-                console.log("current cliked user: ", payload);
+                // console.log("current cliked user: ", payload);
             }
             fetchData();
         }

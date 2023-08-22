@@ -1,20 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect} from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from 'react-router-dom'; 
+import { Link, useParams } from 'react-router-dom'; 
 import "./BookComments.css";
 import { Alert } from 'react-bootstrap';
 
-
-
- 
 const SERVER_API_URL = process.env.REACT_APP_SERVER_API_URL;
 const BOOKS_DETAILS_URL = `${SERVER_API_URL}/books/details`;
 const BOOKS_URL = `${SERVER_API_URL}/books`;
 const BOOK_LIKES_URL = `${SERVER_API_URL}/books/like`;
 const api = axios.create({ withCredentials: true });
-
-
 
 const BookComments = () => {
   
@@ -171,12 +166,19 @@ const BookComments = () => {
           </span>
         )}
         <div className="comment-header">
-          <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
-          <div className="comment-content">
-            {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}{' '}{comment.timeAgo}
-            <div className="row">
-              <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
-            </div>
+          <Link to={`/users/profile/${comment.user._id}`}>
+              <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
+          </Link>
+          <div className="user-info">
+              <div className="username-time">
+                  <Link className="comment-username" to={`/users/profile/${comment.user._id}`}>
+                      {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}
+                  </Link>
+                  <span className="comment-time"> • {comment.timeAgo}</span>
+              </div>
+              <div className="row">
+                  <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
+              </div>
           </div>
         </div>
       </li>
