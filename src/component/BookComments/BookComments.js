@@ -27,10 +27,10 @@ const BookComments = () => {
     const fetchCommentsFromDatabase = async () => {
         try {
             const response = await fetch(`${BOOKS_DETAILS_URL}/${id}`);
-            console.log("Response from adding comment:", response.data);
             if (response.ok) {
                 const commentsAndLikesData = await response.json();
-                console.log("Comments and Likes data:", commentsAndLikesData);
+                const userHasLiked = commentsAndLikesData.likes.some(like => like.user._id === currentUser._id);
+                setLiked(userHasLiked);
                 const currentTime = new Date(); // Current time
                 const commentsAndLikesData_time = commentsAndLikesData.comments.map(comment => ({
                     ...comment,
@@ -68,17 +68,23 @@ const BookComments = () => {
         }
         try {
             const response = await api.put(`${BOOK_LIKES_URL}/${id}`, currentUser);
-            if (response.ok) {
-                setLikes([...likes, { id: likes.length + 1 }]);
+            if (response.status === 200) { // Since use axios, need check whether response.status === 200 rather than response.ok
+                setLiked(true);
             }
-            setLiked(!liked);
         } catch (error) {
-            if (error.response.status === 404) {
+            if (error.response && error.response.status === 404) {
                 error.message = "Please login to add a like";
             }
             setError(error);
         }
     };
+    
+    useEffect(() => {
+        if (liked) {
+            fetchCommentsFromDatabase();  // 当 liked 状态变为 true 时，再去重新获取数据
+        }
+    }, [liked]);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -116,67 +122,67 @@ const BookComments = () => {
             console.error("Error deleting comment:", error);
         }
     }
-  
-  return (
-    <div className="book-comments">
-      <div className="row">
-      {error && <Alert variant="danger">{error.message}</Alert>}
-        <span className="col-7"><h3>Like this book?</h3></span>
-        <span className="col-3">
-          <i className="bi bi-heart" 
-            style={{color: liked ? "red" : ""}}
-            onClick={handleLikeClick}></i>
-				<span className="col-2">{liked ? likes.length + 1: likes.length}</span>
-			</span>
-      </div>
-      
-      
-      <p id="likes-list">{likes.map((like, index) => (index > 0 ? ' ' : ''))}</p>
-      <h3>Comments</h3>
-      <form onSubmit={handleSubmit} className="comment-form">
-        <input
-          type="text"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Enter your comment..."
-        />
-        <button type="submit">Submit</button>
-      </form>
-      <ul className="comment-list">
-      {comments.map((comment) => (
-      <li key={comment._id} className="comment-item position-relative">
-        {currentUser && (currentUser.isAdmin || currentUser.isContentAdmin) && (
-          <span 
-            className="comment-delete-icon text-danger" 
-            onClick={() => deleteComment(id, comment._id)}
-          >
-            &times;
-          </span>
-        )}
-        <div className="comment-header">
-          <Link to={`/users/profile/${comment.user._id}`}>
-              <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
-          </Link>
-          <div className="user-info">
-              <div className="username-time">
-                  <Link className="comment-username" to={`/users/profile/${comment.user._id}`}>
-                      {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}
-                  </Link>
-                  <span className="comment-time"> • {comment.timeAgo}</span>
-              </div>
-              <div className="row">
-                  <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
-              </div>
-          </div>
-        </div>
-      </li>
-    ))}
-      </ul>
-      <form onSubmit={handleSubmit} className="comment-form">
-      </form>
-    </div>
-  );
 
+    return (
+        <div className="book-comments">
+        <div className="row">
+        {error && <Alert variant="danger">{error.message}</Alert>}
+            <span className="col-7"><h3>Like this book?</h3></span>
+            <span className="col-3">
+            <i  className={liked ? "bi bi-heart-fill" : "bi bi-heart"} 
+                style={{color: liked ? "red" : "gray"}}
+                onClick={handleLikeClick}
+            ></i>
+            <span className="col-2">{likes.length}</span>
+            </span>
+        </div>
+        
+        
+        <p id="likes-list">{likes.map((like, index) => (index > 0 ? ' ' : ''))}</p>
+        <h3>Comments</h3>
+        <form onSubmit={handleSubmit} className="comment-form">
+            <input
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Enter your comment..."
+            />
+            <button type="submit">Submit</button>
+        </form>
+        <ul className="comment-list">
+        {comments.map((comment) => (
+        <li key={comment._id} className="comment-item position-relative">
+            {currentUser && (currentUser.isAdmin || currentUser.isContentAdmin) && (
+            <span 
+                className="comment-delete-icon text-danger" 
+                onClick={() => deleteComment(id, comment._id)}
+            >
+                &times;
+            </span>
+            )}
+            <div className="comment-header">
+            <Link to={`/users/profile/${comment.user._id}`}>
+                <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
+            </Link>
+            <div className="user-info">
+                <div className="username-time">
+                    <Link className="comment-username" to={`/users/profile/${comment.user._id}`}>
+                        {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}
+                    </Link>
+                    <span className="comment-time"> • {comment.timeAgo}</span>
+                </div>
+                <div className="row">
+                    <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
+                </div>
+            </div>
+            </div>
+        </li>
+        ))}
+        </ul>
+        <form onSubmit={handleSubmit} className="comment-form">
+        </form>
+        </div>
+    );
 }
 
 export default BookComments;
