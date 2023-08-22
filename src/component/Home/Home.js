@@ -13,7 +13,7 @@ function Home() {
             <header className="background-image">
                 <div className="welcome-text">
                     {currentUser && (
-                        <div className="user-info">
+                        <div className="home-user-info">
                             <img 
                                 src={currentUser.avatarUrl || '/default-avatar.png'} 
                                 alt={currentUser.username} 

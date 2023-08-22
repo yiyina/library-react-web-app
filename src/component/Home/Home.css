@@ -14,7 +14,10 @@
     color: white;
     border-radius: 10px;
 }
-
+.user-avatar {
+    align-items: center;
+    justify-content: center;
+}
 .welcome-text {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
