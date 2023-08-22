@@ -70,7 +70,7 @@ const ProfileOther = () => {
                         const followData = await dispatch(profileOtherThunk(followId));
                         return {
                             ...followData.payload,
-                            _id: followId // Add this line to ensure _id is included in each user object
+                            _id: followId
                         };
                     })
                 );
@@ -135,8 +135,6 @@ const ProfileOther = () => {
                         };
                     })
                 );
-            
-                // 进行去重处理
                 const uniqueBooksData = [];
                 const seenBookIds = new Set();
             
@@ -146,7 +144,6 @@ const ProfileOther = () => {
                         seenBookIds.add(bookData._id);
                     }
                 }
-            
                 setCommentedBooksDetails(uniqueBooksData);
             };            
             fetchCommentedBooks();
