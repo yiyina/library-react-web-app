@@ -81,4 +81,11 @@
   height: 50px;
 }
 
+.comment-delete-icon {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
 

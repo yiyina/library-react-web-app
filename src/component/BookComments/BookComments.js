@@ -121,6 +121,18 @@ const BookComments = () => {
     }
   };
   
+  const deleteComment = async (bid, cid) => {
+    try {
+      const response = await api.delete(`/api/books/${bid}/comments/${cid}`);
+      if (response.status === 200) {
+        setComments(prevComments => prevComments.filter(comment => comment._id !== cid));
+      } else {
+        console.error("Error deleting comment:", response);
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  }
   
   return (
     <div className="book-comments">
@@ -148,21 +160,27 @@ const BookComments = () => {
         <button type="submit">Submit</button>
       </form>
       <ul className="comment-list">
-        {comments.map((comment) => (
-          <li key={comment.id} className="comment-item">
-            <div className="comment-header">
-              <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
-              {console.log("comment data: ", comment)}
-              <div className="comment-content">
-                {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}{' '}{comment.timeAgo}
-                {/* <span className="comment-author">{comment.user.username}</span> */}
-                <div className="row">
-                  <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
-                </div>
-              </div>
+      {comments.map((comment) => (
+      <li key={comment._id} className="comment-item position-relative">
+        {currentUser && comment.user && currentUser._id === comment.user._id && (
+          <span 
+            className="comment-delete-icon text-danger" 
+            onClick={() => deleteComment(id, comment._id)}
+          >
+            &times;
+          </span>
+        )}
+        <div className="comment-header">
+          <img src={comment.user.avatarUrl} alt={`${comment.user.username}'s Avatar`} />
+          <div className="comment-content">
+            {comment.user && comment.user.username ? comment.user.username : 'Anonymous'}{' '}{comment.timeAgo}
+            <div className="row">
+              <span className="col 9"><p className="comment-text">{comment.content}</p></span> 
             </div>
-          </li>
-        ))}
+          </div>
+        </div>
+      </li>
+    ))}
       </ul>
       <form onSubmit={handleSubmit} className="comment-form">
       </form>

@@ -135,8 +135,20 @@ const ProfileOther = () => {
                         };
                     })
                 );
-                setCommentedBooksDetails(booksData);
-            };
+            
+                // 进行去重处理
+                const uniqueBooksData = [];
+                const seenBookIds = new Set();
+            
+                for (const bookData of booksData) {
+                    if (!seenBookIds.has(bookData._id)) {
+                        uniqueBooksData.push(bookData);
+                        seenBookIds.add(bookData._id);
+                    }
+                }
+            
+                setCommentedBooksDetails(uniqueBooksData);
+            };            
             fetchCommentedBooks();
             setHasLoadedCommentedBooks(true);
         }
@@ -149,19 +161,6 @@ const ProfileOther = () => {
     if (status === 'failed') {
         return <div>Error: {error}</div>;
     }
-
-    const renderLikesOrComments = (list, contentKey) => {
-        return (
-            <div className="likes-comments-section">
-                <h3>{contentKey}</h3>
-                <ul>
-                    {list.map(item => (
-                        <li key={item._id}>{item[contentKey]}</li>
-                    ))}
-                </ul>
-            </div>
-        );
-    };
 
     return (
         <div>
