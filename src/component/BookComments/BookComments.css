@@ -54,6 +54,16 @@
   align-items: center; 
 }
 
+.comment-username {
+  font-weight: bold;
+  text-decoration: none; 
+  color: black; 
+}
+
+.comment-username:hover {
+  color: blue; 
+}
+
 /* Comment form */
 .comment-form {
   margin-top: 1rem;
