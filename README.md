@@ -1,4 +1,4 @@
-# App Name: Book Search App
+# App Name: Book Search Website
 
 ### "Book Search App" is an innovative online platform designed to enhance your reading experience. With a comprehensive search feature, users can easily explore a vast collection of books, accessing essential information such as summaries, author details, and user reviews. Our platform also offers personalized features, including user login, book bookmarking, commenting, and the ability to follow other users, fostering a vibrant community of book enthusiasts. Whether you're searching for your next literary adventure or connecting with like-minded readers, "Book Library" provides a seamless and engaging platform for all your reading needs.
 
