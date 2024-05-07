@@ -90,15 +90,14 @@
 
 ### Home Screen
 Light Mode:
-<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/7bda2f54-d4b1-4a63-890c-7251c18713fc" width="30%">
+<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/7bda2f54-d4b1-4a63-890c-7251c18713fc" width="50%">
 
 Dark Mode:
-<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/041b5912-9640-4cbe-951e-fe594abd5456" width="30%">
+<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/041b5912-9640-4cbe-951e-fe594abd5456" width="50%">
 
 ### Search Screen
-<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/fa35ea2d-8d1f-43a0-bbca-5eed98833947" width="30%">
-Search Results
-<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/175183f9-a76b-4023-add0-296f67996791" width="30%">
+<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/fa35ea2d-8d1f-43a0-bbca-5eed98833947" width="50%">
+<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/175183f9-a76b-4023-add0-296f67996791" width="50%">
 
 ### Profile Screen
-<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/36132228-67dd-4b4e-8cb0-4bfe2411f461" width="30%">
+<img src="https://github.com/yiyina/library-react-web-app/assets/55360195/36132228-67dd-4b4e-8cb0-4bfe2411f461" width="50%">
